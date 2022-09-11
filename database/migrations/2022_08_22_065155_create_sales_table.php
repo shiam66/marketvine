@@ -19,7 +19,7 @@ class CreateSalesTable extends Migration
             $table->string('invoice');
             $table->date('invoiceDate');
             $table->integer('customerId');
-            $table->string('customerPo', 20)->nullable();
+            $table->string('customerPo', 50)->nullable();
             $table->string('billTo', 200)->nullable();
             $table->string('billToContact', 200)->nullable();
             $table->string('shipTo', 200)->nullable();
