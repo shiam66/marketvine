@@ -2,11 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-
 //Route::get('/', function () {
 //    return view('frontEnd.home.homeContent')->middleware('auth');
 //});
-
 
 Route::get('/register', 'WelcomeController@reg')->middleware('auth');
 Route::get('/registration', 'WelcomeController@reg2')->middleware('auth');
@@ -45,7 +43,6 @@ Route::post('/customerShipByAjax', 'SalesController@customerShipTo')->name('sear
 Route::post('/itemNameByAjax', 'SalesController@itemName')->name('search.itemName')->middleware('auth');
 Route::post('/itemCodeByAjax', 'SalesController@itemCode')->name('search.itemCode')->middleware('auth');
 Route::post('/othersByAjax', 'SalesController@others')->name('search.others')->middleware('auth');
-
 
 Auth::routes();
 

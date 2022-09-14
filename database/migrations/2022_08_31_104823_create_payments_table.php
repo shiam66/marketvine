@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->date('paymentDate');
             $table->integer('customerId');
-            $table->string('receivedId', 50);
+            $table->string('receivedId', 50)->nullable();
             $table->string('memo', 50)->nullable();
             $table->bigInteger('salesId');
             $table->string('invoice');

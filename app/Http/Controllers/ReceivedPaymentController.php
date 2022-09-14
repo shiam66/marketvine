@@ -38,6 +38,8 @@ class ReceivedPaymentController extends Controller
 
                 $dues = $request->dueAmount[$i] - $request->appliedAmount[$i];
                 if ($dues == 0) { $status = 1; } else { $status = 0; }
+
+                $sales=
                 DB::update('update sales set balanceDue = ?, paymentStatus= ? where id = ?', [$dues, $status, $request->salesId[$i]]);
             }
         }

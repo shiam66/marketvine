@@ -14,4 +14,8 @@ class WelcomeController extends Controller
     public function purchases(){
         return view('frontEnd.purchases.purchases');
     }
+
+    public function index(){
+        return view('frontEnd.home.homeContent');
+    }
 }

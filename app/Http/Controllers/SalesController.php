@@ -115,8 +115,40 @@ class SalesController extends Controller
             ->select(DB::raw('YEAR(invoiceDate) as salesyear'))
             ->get();
 
+        $yearId = SalesBudget::Select('budgetYear')->max('budgetYear');
+        $lastYearId = $yearId - 1;
+        $salesBudget = SalesBudget::where('budgetYear', '=', $yearId)->first();
+        $salesAnalysis[] = 0;
+        $paymentAnalysis[] = 0;
+        for ($month = 1; $month <= 12; $month++) {
+            $salesAnalysis[] = DB::table('sales_details')
+                ->whereYear('invoiceDate', '=', $yearId)
+                ->whereMonth('invoiceDate', '=', $month)
+                ->select(DB::raw('sum(amount) as sumAmount'))
+                ->get();
+
+            $paymentAnalysis[] = DB::table('payments')
+                ->whereYear('paymentDate', '=', $yearId)
+                ->whereMonth('paymentDate', '=', $month)
+                ->select(DB::raw('sum(receivedAmount) as sumAmount'))
+                ->get();
+        }
+
+        $lastSalesAnalysis[] = 0;
+        for ($month = 1; $month <= 12; $month++) {
+            $lastSalesAnalysis[] = DB::table('sales_details')
+                ->whereYear('invoiceDate', '=', $lastYearId)
+                ->whereMonth('invoiceDate', '=', $month)
+                ->select(DB::raw('sum(amount) as sumAmount'))
+                ->get();
+        }
+
         return view('frontEnd.sales.salesTableAnalysis', [
-            'salesYears' => $salesYears
+            'salesYears' => $salesYears,
+            'salesBudget' => $salesBudget,
+            'salesAnalysis' => $salesAnalysis,
+            'paymentAnalysis' => $paymentAnalysis,
+            'lastSalesAnalysis' => $lastSalesAnalysis
         ]);
     }
 
@@ -152,7 +184,6 @@ class SalesController extends Controller
                 ->select(DB::raw('sum(amount) as sumAmount'))
                 ->get();
         }
-
 
         $salesAchvJan = $salesAnalysis[1][0]->sumAmount;
         $salesAchvFeb = $salesAnalysis[2][0]->sumAmount;
@@ -438,18 +469,18 @@ class SalesController extends Controller
 
             <tr>
                 <td><b>Sales Gr% SPLY</b></td>
-                <td class="' . $this->setColour($splyPerJan) . ' text-white"><span class="sw_text">' . $splyPerJan . '%</span></td>
-                <td class="' . $this->setColour($splyPerFeb) . ' text-white"><span class="sw_text">' . $splyPerFeb . '%</span></td>
-                <td class="' . $this->setColour($splyPerMar) . ' text-white"><span class="sw_text">' . $splyPerMar . '%</span></td>
-                <td class="' . $this->setColour($splyPerApr) . ' text-white"><span class="sw_text">' . $splyPerApr . '%</span></td>
-                <td class="' . $this->setColour($splyPerMay) . ' text-white"><span class="sw_text">' . $splyPerMay . '%</span></td>
-                <td class="' . $this->setColour($splyPerJun) . ' text-white"><span class="sw_text">' . $splyPerJun . '%</span></td>
-                <td class="' . $this->setColour($splyPerJul) . ' text-white"><span class="sw_text">' . $splyPerJul . '%</span></td>
-                <td class="' . $this->setColour($splyPerAug) . ' text-white"><span class="sw_text">' . $splyPerAug . '%</span></td>
-                <td class="' . $this->setColour($splyPerSep) . ' text-white"><span class="sw_text">' . $splyPerSep . '%</span></td>
-                <td class="' . $this->setColour($splyPerOct) . ' text-white"><span class="sw_text">' . $splyPerOct . '%</span></td>
-                <td class="' . $this->setColour($splyPerNov) . ' text-white"><span class="sw_text">' . $splyPerNov . '%</span></td>
-                <td class="' . $this->setColour($splyPerDec) . ' text-white"><span class="sw_text">' . $splyPerDec . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerJan) . ' text-white"><span class="sw_text">' . $splyPerJan . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerFeb) . ' text-white"><span class="sw_text">' . $splyPerFeb . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerMar) . ' text-white"><span class="sw_text">' . $splyPerMar . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerApr) . ' text-white"><span class="sw_text">' . $splyPerApr . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerMay) . ' text-white"><span class="sw_text">' . $splyPerMay . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerJun) . ' text-white"><span class="sw_text">' . $splyPerJun . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerJul) . ' text-white"><span class="sw_text">' . $splyPerJul . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerAug) . ' text-white"><span class="sw_text">' . $splyPerAug . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerSep) . ' text-white"><span class="sw_text">' . $splyPerSep . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerOct) . ' text-white"><span class="sw_text">' . $splyPerOct . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerNov) . ' text-white"><span class="sw_text">' . $splyPerNov . '%</span></td>
+                <td class="' . $this->growSetColour($splyPerDec) . ' text-white"><span class="sw_text">' . $splyPerDec . '%</span></td>
             </tr>
 
             <tr>
@@ -470,18 +501,18 @@ class SalesController extends Controller
 
             <tr>
                 <td><b>Cum. Sales SPLY Grw.%</b></td>
-                <td class="' . $this->setColour($cumSalesSplyPerJan) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerJan . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerFeb) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerFeb . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerMar) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerMar . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerApr) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerApr . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerMay) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerMay . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerJun) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerJun . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerJul) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerJul . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerAug) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerAug . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerSep) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerSep . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerOct) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerOct . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerNov) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerNov . '%</span></td>
-                <td class="' . $this->setColour($cumSalesSplyPerDec) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerDec . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerJan) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerJan . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerFeb) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerFeb . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerMar) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerMar . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerApr) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerApr . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerMay) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerMay . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerJun) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerJun . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerJul) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerJul . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerAug) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerAug . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerSep) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerSep . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerOct) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerOct . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerNov) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerNov . '%</span></td>
+                <td class="' . $this->growSetColour($cumSalesSplyPerDec) . ' text-white"><span class="sw_text">' . $cumSalesSplyPerDec . '%</span></td>
             </tr>
 
             <tr>
@@ -550,16 +581,9 @@ class SalesController extends Controller
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-5 col-form-label col-form-label-sm text-right">Bill to Con.:</label>
-                <div class="col-sm-7">
-                    <select class="form-control form-control-sm" name="billToContact">
-                        <option value="">Select Contact</option>
-                        <option value="' . $customer->contact1Name . '">' . $customer->contact1Name . '</option>
-                        <option value="' . $customer->contact2Name . '">' . $customer->contact2Name . '</option>
-                        <option value="' . $customer->contact3Name . '">' . $customer->contact3Name . '</option>
-                        <option value="' . $customer->contact4Name . '">' . $customer->contact4Name . '</option>
-                        <option value="' . $customer->contact5Name . '">' . $customer->contact5Name . '</option>
-                    </select>
+                <label class="col-sm-4 col-form-label col-form-label-sm text-right">Bill Con.:</label>
+                <div class="col-sm-8">
+                    <textarea name="billToContact" class="form-control form-control-sm" rows="1" readonly>' . $customer->contact1Name . '</textarea>
                 </div>
             </div>
 
@@ -582,16 +606,9 @@ class SalesController extends Controller
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-5 col-form-label col-form-label-sm text-right">Ship to Con.:</label>
-                <div class="col-sm-7">
-                    <select class="form-control form-control-sm" name="shipToContact">
-                        <option value="">Select Contact</option>
-                        <option value="' . $customer->contact1Name . '">' . $customer->contact1Name . '</option>
-                        <option value="' . $customer->contact2Name . '">' . $customer->contact2Name . '</option>
-                        <option value="' . $customer->contact3Name . '">' . $customer->contact3Name . '</option>
-                        <option value="' . $customer->contact4Name . '">' . $customer->contact4Name . '</option>
-                        <option value="' . $customer->contact5Name . '">' . $customer->contact5Name . '</option>
-                    </select>
+                <label class="col-sm-4 col-form-label col-form-label-sm text-right">Ship Con.:</label>
+                <div class="col-sm-8">
+                    <textarea name="shipToContact" class="form-control form-control-sm" rows="1" readonly>' . $customer->contact2Name . '</textarea>
                 </div>
             </div>
 
@@ -658,6 +675,19 @@ class SalesController extends Controller
         } elseif ($value >= 80) {
             return "bg-warning";
         } elseif ($value >= 70) {
+            return "bg-primary";
+        } else {
+            return "bg-danger";
+        }
+    }
+
+    public function growSetColour($value)
+    {
+        if ($value >= 15) {
+            return "bg-success";
+        } elseif ($value >= 10) {
+            return "bg-warning";
+        } elseif ($value >= 0) {
             return "bg-primary";
         } else {
             return "bg-danger";

@@ -8,6 +8,23 @@ use Illuminate\Support\Facades\DB;
 
 class SalesBudgetController extends Controller
 {
+    public function salesBudget()
+    {
+        $yearId = SalesBudget::Select('budgetYear')->max('budgetYear');
+        $budget = SalesBudget::Where('budgetYear', '=', $yearId)->first();
+
+        $budgetYears = DB::table('sales_budgets')
+            ->groupBy('budgetYear')
+            ->orderByDesc('budgetYear')
+            ->select('budgetYear')
+            ->get();
+
+        return view('frontEnd.saleBudget.saleBudget', [
+            'budgetYears' => $budgetYears,
+            'budget' => $budget
+        ]);
+    }
+
     public function budgetByYear(Request $request)
     {
         $yearId = $request->get('yearId');
@@ -39,10 +56,11 @@ class SalesBudgetController extends Controller
         $opOct = $gpOct - $budget->oeOct;
         $opNov = $gpNov - $budget->oeNov;
         $opDec = $gpDec - $budget->oeDec;
+        $opTotal=$opJan+$opFeb+$opMar+$opApr+$opMay+$opJun+$opJul+$opAug+$opSep+$opOct+$opNov+$opDec;
 
         $output .= '
             <tr>
-                <td><b>Sales</b></td>
+                <th>Sales</th>
                 <td><input type="text" value="' . $budget->salesJan . '" name="salesJan" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->salesFeb . '" name="salesFeb" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->salesMar . '" name="salesMar" class="form-control form-control-sm"></td>
@@ -55,11 +73,11 @@ class SalesBudgetController extends Controller
                 <td><input type="text" value="' . $budget->salesOct . '" name="salesOct" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->salesNov . '" name="salesNov" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->salesDec . '" name="salesDec" class="form-control form-control-sm"></td>
-                <td>' . $budget->salesTotal . '</td>
+                <td class="text-right">' . $budget->salesTotal . '</td>
             </tr>
 
             <tr>
-                <td><b>COGS</b></td>
+                <th>COGS</th>
                 <td><input type="text" value="' . $budget->cogsJan . '" name="cogsJan" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->cogsFeb . '" name="cogsFeb" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->cogsMar . '" name="cogsMar" class="form-control form-control-sm"></td>
@@ -72,11 +90,11 @@ class SalesBudgetController extends Controller
                 <td><input type="text" value="' . $budget->cogsOct . '" name="cogsOct" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->cogsNov . '" name="cogsNov" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->cogsDec . '" name="cogsDec" class="form-control form-control-sm"></td>
-                <td>' . $budget->cogsTotal . '</td>
+                <td class="text-right">' . $budget->cogsTotal . '</td>
             </tr>
 
             <tr>
-                <td><b>GP</b></td>
+                <th>GP</th>
                 <td><input type="text" value="' . $gpJan . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $gpFeb . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $gpMar . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
@@ -89,28 +107,28 @@ class SalesBudgetController extends Controller
                 <td><input type="text" value="' . $gpOct . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $gpNov . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $gpDec . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td>' . ($budget->salesTotal - $budget->cogsTotal) . '</td>
+                <td class="text-right">' . ($budget->salesTotal - $budget->cogsTotal) . '</td>
             </tr>
 
             <tr>
-                <td><b>GP %</b></td>
-                <td><input type="text" value="' . round($gpJan / $budget->salesJan * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpFeb / $budget->salesFeb * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpMar / $budget->salesMar * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpApr / $budget->salesApr * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpMay / $budget->salesMay * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpJun / $budget->salesJun * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpJul / $budget->salesJul * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpAug / $budget->salesAug * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpSep / $budget->salesSep * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpOct / $budget->salesOct * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpNov / $budget->salesNov * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($gpDec / $budget->salesDec * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td></td>
+                <th>GP %</th>
+                <td class="bg-warning text-white text-right">' . round($gpJan / $budget->salesJan * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpFeb / $budget->salesFeb * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpMar / $budget->salesMar * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpApr / $budget->salesApr * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpMay / $budget->salesMay * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpJun / $budget->salesJun * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpJul / $budget->salesJul * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpAug / $budget->salesAug * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpSep / $budget->salesSep * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpOct / $budget->salesOct * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpNov / $budget->salesNov * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round($gpDec / $budget->salesDec * 100) . '%</td>
+                <td class="bg-warning text-white text-right">' . round(($budget->salesTotal - $budget->cogsTotal) / $budget->salesTotal * 100) . '%</td>
             </tr>
 
             <tr>
-                <td><b>OE Budget</b></td>
+                <th>OE</th>
                 <td><input type="text" value="' . $budget->oeJan . '" name="oeJan" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->oeFeb . '" name="oeFeb" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->oeMar . '" name="oeMar" class="form-control form-control-sm"></td>
@@ -123,11 +141,11 @@ class SalesBudgetController extends Controller
                 <td><input type="text" value="' . $budget->oeOct . '" name="oeOct" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->oeNov . '" name="oeNov" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->oeDec . '" name="oeDec" class="form-control form-control-sm"></td>
-                <td>' . $budget->oeTotal . '</td>
+                <td class="text-right">' . $budget->oeTotal . '</td>
             </tr>
 
             <tr>
-                <td><b>Operating Per</b></td>
+                <th>OP</th>
                 <td><input type="text" value="' . $opJan . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $opFeb . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $opMar . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
@@ -140,28 +158,28 @@ class SalesBudgetController extends Controller
                 <td><input type="text" value="' . $opOct . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $opNov . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
                 <td><input type="text" value="' . $opDec . '" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td>0</td>
+                <td class="text-right">' . $opTotal . '</td>
             </tr>
 
             <tr>
-                <td><b>Operating Per %</b></td>
-                <td><input type="text" value="' . round($opJan / $budget->salesJan * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opFeb / $budget->salesFeb * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opMar / $budget->salesMar * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opApr / $budget->salesApr * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opMay / $budget->salesMay * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opJun / $budget->salesJun * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opJul / $budget->salesJul * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opAug / $budget->salesAug * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opSep / $budget->salesSep * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opOct / $budget->salesOct * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opNov / $budget->salesNov * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td><input type="text" value="' . round($opDec / $budget->salesDec * 100) . '%" name="saleBudget1" class="form-control form-control-sm" readonly></td>
-                <td></td>
+                <th>OP %</th>
+                <td class="bg-success text-white text-right">' . round($opJan / $budget->salesJan * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opFeb / $budget->salesFeb * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opMar / $budget->salesMar * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opApr / $budget->salesApr * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opMay / $budget->salesMay * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opJun / $budget->salesJun * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opJul / $budget->salesJul * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opAug / $budget->salesAug * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opSep / $budget->salesSep * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opOct / $budget->salesOct * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opNov / $budget->salesNov * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opDec / $budget->salesDec * 100) . '%</td>
+                <td class="bg-success text-white text-right">' . round($opTotal / $budget->salesTotal * 100) . '%</td>
             </tr>
 
             <tr>
-                <td><b>Recov Target</b></td>
+                <th>Recov Target</th>
                 <td><input type="text" value="' . $budget->recJan . '" name="recJan" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->recFeb . '" name="recFeb" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->recMar . '" name="recMar" class="form-control form-control-sm"></td>
@@ -174,26 +192,12 @@ class SalesBudgetController extends Controller
                 <td><input type="text" value="' . $budget->recOct . '" name="recOct" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->recNov . '" name="recNov" class="form-control form-control-sm"></td>
                 <td><input type="text" value="' . $budget->recDec . '" name="recDec" class="form-control form-control-sm"></td>
-                <td>' . $budget->recTotal . '</td>
+                <td class="text-right">' . $budget->recTotal . '</td>
             </tr>
 
         ';
 
         echo $output;
-    }
-
-    public function salesBudget()
-    {
-
-        $budgetYears = DB::table('sales_budgets')
-            ->groupBy('budgetYear')
-            ->orderByDesc('budgetYear')
-            ->select('budgetYear')
-            ->get();
-
-        return view('frontEnd.saleBudget.saleBudget', [
-            'budgetYears' => $budgetYears
-        ]);
     }
 
     public function createSalesBudget(Request $request)
@@ -216,7 +220,7 @@ class SalesBudgetController extends Controller
             $salesBudget->salesOct = $request->salesOct;
             $salesBudget->salesNov = $request->salesNov;
             $salesBudget->salesDec = $request->salesDec;
-            $salesBudget->salesTotal = 0;
+            $salesBudget->salesTotal = ($request->salesJan + $request->salesFeb + $request->salesMar + $request->salesApr + $request->salesMay + $request->salesJun + $request->salesJul + $request->salesAug + $request->salesSep + $request->salesOct + $request->salesNov + $request->salesDec);
             $salesBudget->cogsJan = $request->cogsJan;
             $salesBudget->cogsFeb = $request->cogsFeb;
             $salesBudget->cogsMar = $request->cogsMar;
@@ -229,7 +233,7 @@ class SalesBudgetController extends Controller
             $salesBudget->cogsOct = $request->cogsOct;
             $salesBudget->cogsNov = $request->cogsNov;
             $salesBudget->cogsDec = $request->cogsDec;
-            $salesBudget->cogsTotal = 0;
+            $salesBudget->cogsTotal = ($request->cogsJan + $request->cogsFeb + $request->cogsMar + $request->cogsApr + $request->cogsMay + $request->cogsJun + $request->cogsJul + $request->cogsAug + $request->cogsSep + $request->cogsOct + $request->cogsNov + $request->cogsDec);
             $salesBudget->oeJan = $request->oeJan;
             $salesBudget->oeFeb = $request->oeFeb;
             $salesBudget->oeMar = $request->oeMar;
@@ -242,7 +246,7 @@ class SalesBudgetController extends Controller
             $salesBudget->oeOct = $request->oeOct;
             $salesBudget->oeNov = $request->oeNov;
             $salesBudget->oeDec = $request->oeDec;
-            $salesBudget->oeTotal = 0;
+            $salesBudget->oeTotal = ($request->oeJan + $request->oeFeb + $request->oeMar + $request->oeApr + $request->oeMay + $request->oeJun + $request->oeJul + $request->oeAug + $request->oeSep + $request->oeOct + $request->oeNov + $request->oeDec);
             $salesBudget->recJan = $request->recJan;
             $salesBudget->recFeb = $request->recFeb;
             $salesBudget->recMar = $request->recMar;
@@ -255,7 +259,7 @@ class SalesBudgetController extends Controller
             $salesBudget->recOct = $request->recOct;
             $salesBudget->recNov = $request->recNov;
             $salesBudget->recDec = $request->recDec;
-            $salesBudget->recTotal = 0;
+            $salesBudget->recTotal = ($request->recJan + $request->recFeb + $request->recMar + $request->recApr + $request->recMay + $request->recJun + $request->recJul + $request->recAug + $request->recSep + $request->recOct + $request->recNov + $request->recDec);
             $salesBudget->createdBy = 0;
             $salesBudget->save();
         } else {
@@ -271,7 +275,7 @@ class SalesBudgetController extends Controller
             $budget->salesOct = $request->salesOct;
             $budget->salesNov = $request->salesNov;
             $budget->salesDec = $request->salesDec;
-            $budget->salesTotal = 0;
+            $budget->salesTotal = ($request->salesJan + $request->salesFeb + $request->salesMar + $request->salesApr + $request->salesMay + $request->salesJun + $request->salesJul + $request->salesAug + $request->salesSep + $request->salesOct + $request->salesNov + $request->salesDec);
             $budget->cogsJan = $request->cogsJan;
             $budget->cogsFeb = $request->cogsFeb;
             $budget->cogsMar = $request->cogsMar;
@@ -284,7 +288,7 @@ class SalesBudgetController extends Controller
             $budget->cogsOct = $request->cogsOct;
             $budget->cogsNov = $request->cogsNov;
             $budget->cogsDec = $request->cogsDec;
-            $budget->cogsTotal = 0;
+            $budget->cogsTotal = ($request->cogsJan + $request->cogsFeb + $request->cogsMar + $request->cogsApr + $request->cogsMay + $request->cogsJun + $request->cogsJul + $request->cogsAug + $request->cogsSep + $request->cogsOct + $request->cogsNov + $request->cogsDec);
             $budget->oeJan = $request->oeJan;
             $budget->oeFeb = $request->oeFeb;
             $budget->oeMar = $request->oeMar;
@@ -297,7 +301,7 @@ class SalesBudgetController extends Controller
             $budget->oeOct = $request->oeOct;
             $budget->oeNov = $request->oeNov;
             $budget->oeDec = $request->oeDec;
-            $budget->oeTotal = 0;
+            $budget->oeTotal = ($request->oeJan + $request->oeFeb + $request->oeMar + $request->oeApr + $request->oeMay + $request->oeJun + $request->oeJul + $request->oeAug + $request->oeSep + $request->oeOct + $request->oeNov + $request->oeDec);
             $budget->recJan = $request->recJan;
             $budget->recFeb = $request->recFeb;
             $budget->recMar = $request->recMar;
@@ -310,7 +314,7 @@ class SalesBudgetController extends Controller
             $budget->recOct = $request->recOct;
             $budget->recNov = $request->recNov;
             $budget->recDec = $request->recDec;
-            $budget->recTotal = 0;
+            $budget->recTotal = ($request->recJan + $request->recFeb + $request->recMar + $request->recApr + $request->recMay + $request->recJun + $request->recJul + $request->recAug + $request->recSep + $request->recOct + $request->recNov + $request->recDec);
             $budget->updatedBy = 0;
             $budget->save();
         }

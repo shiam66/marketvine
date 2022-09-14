@@ -125,11 +125,9 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 col-form-label col-form-label-sm text-right">Bill to Con.:</label>
-                                <div class="col-sm-7">
-                                    <select class="form-control form-control-sm" name="billToContact">
-                                        <option value="">Select Contact</option>
-                                    </select>
+                                <label class="col-sm-4 col-form-label col-form-label-sm text-right">Bill Con.:</label>
+                                <div class="col-sm-8">
+                                    <textarea name="billToContact" class="form-control form-control-sm" rows="1" readonly></textarea>
                                 </div>
                             </div>
                         </div>
@@ -143,11 +141,9 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-5 col-form-label col-form-label-sm text-right">Ship to Con.:</label>
-                                <div class="col-sm-7">
-                                    <select class="form-control form-control-sm" name="shipToContact">
-                                        <option value="">Select Contact</option>
-                                    </select>
+                                <label class="col-sm-4 col-form-label col-form-label-sm text-right">Ship Con.:</label>
+                                <div class="col-sm-8">
+                                    <textarea name="shipToContact" class="form-control form-control-sm" rows="1" readonly></textarea>
                                 </div>
                             </div>
                         </div>

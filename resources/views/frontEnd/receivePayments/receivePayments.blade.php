@@ -115,13 +115,13 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">ID #:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="receivedId" class="form-control form-control-sm" required>
+                                        <input type="text" name="receivedId" class="form-control form-control-sm">
                                     </div>
                                 </div>
                                 <div class="form-group form-row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Memo:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="memo" class="form-control form-control-sm" required>
+                                        <input type="text" name="memo" class="form-control form-control-sm">
                                     </div>
                                 </div>
                             </div>

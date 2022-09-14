@@ -64,7 +64,7 @@
 
                                 <div class="col-md-7">
                                     <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 1</label>
+                                        <label class="col-sm-2 col-form-label">Bill To Contact:</label>
                                         <div class="col-sm-4">
                                             <input type="text" name="contact1Name" value="{{ $customerById->contact1Name }}" class="form-control" placeholder="Name" required>
                                         </div>
@@ -77,7 +77,7 @@
                                     </div>
 
                                     <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 2</label>
+                                        <label class="col-sm-2 col-form-label">Ship To Contact:</label>
                                         <div class="col-sm-4">
                                             <input type="text" name="contact2Name" value="{{ $customerById->contact2Name }}" class="form-control" placeholder="Name">
                                         </div>
@@ -86,45 +86,6 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <input type="text" name="contact2Mobile" value="{{ $customerById->contact2Mobile }}" class="form-control" placeholder="Mobile">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 3</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="contact3Name" value="{{ $customerById->contact3Name }}" class="form-control" placeholder="Name">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact3Designation" value="{{ $customerById->contact3Designation }}" class="form-control" placeholder="Designation">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact3Mobile" value="{{ $customerById->contact3Mobile }}" class="form-control" placeholder="Mobile">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 4</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="contact4Name" value="{{ $customerById->contact4Name }}" class="form-control" placeholder="Name">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact4Designation" value="{{ $customerById->contact4Designation }}" class="form-control" placeholder="Designation">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact4Mobile" value="{{ $customerById->contact4Mobile }}" class="form-control" placeholder="Mobile">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 5</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="contact5Name" value="{{ $customerById->contact5Name }}" class="form-control" placeholder="Name">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact5Designation" value="{{ $customerById->contact5Designation }}" class="form-control" placeholder="Designation">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact5Mobile" value="{{ $customerById->contact5Mobile }}" class="form-control" placeholder="Mobile">
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +138,7 @@
 
                                 <div class="col-md-7">
                                     <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 1</label>
+                                        <label class="col-sm-2 col-form-label">Bill To Contact:</label>
                                         <div class="col-sm-4">
                                             <input type="text" name="contact1Name" class="form-control" placeholder="Name" required>
                                         </div>
@@ -190,7 +151,7 @@
                                     </div>
 
                                     <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 2</label>
+                                        <label class="col-sm-2 col-form-label">Ship To Contact:</label>
                                         <div class="col-sm-4">
                                             <input type="text" name="contact2Name" class="form-control" placeholder="Name">
                                         </div>
@@ -199,45 +160,6 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <input type="text" name="contact2Mobile" class="form-control" placeholder="Mobile">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 3</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="contact3Name" class="form-control" placeholder="Name">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact3Designation" class="form-control" placeholder="Designation">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact3Mobile" class="form-control" placeholder="Mobile">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 4</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="contact4Name" class="form-control" placeholder="Name">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact4Designation" class="form-control" placeholder="Designation">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact4Mobile" class="form-control" placeholder="Mobile">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-row">
-                                        <label class="col-sm-2 col-form-label">Contact: 5</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" name="contact5Name" class="form-control" placeholder="Name">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact5Designation" class="form-control" placeholder="Designation">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" name="contact5Mobile" class="form-control" placeholder="Mobile">
                                         </div>
                                     </div>
                                 </div>
@@ -292,9 +214,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-success btn-sm">View</button>
                                     <a href="{{ url('/customerInfo/'.$item->id) }}" class="btn btn-primary btn-sm">Edit</a>
-{{--                                    <button type="button" class="btn btn-danger btn-sm">Delete</button>--}}
                                 </td>
                             </tr>
                         @endforeach

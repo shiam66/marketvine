@@ -67,21 +67,21 @@
                             <div class="form-group form-row">
                                 <div class="col-sm-6">
                                     <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="btn1">
+                                        <input type="checkbox" class="form-check-input" id="btn1" disabled>
                                         <label class="form-check-label" for="btn1">I Buy This Item</label>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="btn2">
+                                        <input type="checkbox" class="form-check-input" id="btn2" disabled>
                                         <label class="form-check-label" for="btn2">I Sell This Item</label>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="btn3">
+                                        <input type="checkbox" class="form-check-input" id="btn3" disabled>
                                         <label class="form-check-label" for="btn3">I Inventory This Item</label>
                                     </div>
                                 </div>
@@ -92,28 +92,28 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Quantity on Hand</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="lastCost" class="form-control">
+                                    <input type="text" name="lastCost" class="form-control" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Current Value</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="lastSellPrice" class="form-control">
+                                    <input type="text" name="lastSellPrice" class="form-control" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Average Cost</label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="lastSellPrice" class="form-control">
+                                    <input type="text" name="lastSellPrice" class="form-control" readonly>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Asset Account for Item Inventory</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control" name="assetAccount">
+                                    <select class="form-control" name="assetAccount" disabled>
                                         <option value="1">Code - 1-1350</option>
                                         <option value="0">Code - 1-1350</option>
                                     </select>
@@ -134,35 +134,35 @@
                     <div class="form-group row">
                         <label class="col-sm-7 col-form-label">Last Purchase Price:</label>
                         <div class="col-sm-5">
-                            <input type="text" name="lastPurchase" class="form-control">
+                            <input type="text" name="lastPurchase" class="form-control" readonly>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-7 col-form-label">Buying Unit of Measure:</label>
                         <div class="col-sm-5">
-                            <input type="text" name="buyingUnit" class="form-control">
+                            <input type="text" name="buyingUnit" class="form-control" readonly>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-7 col-form-label">Number of Items per Buying Unit:</label>
                         <div class="col-sm-5">
-                            <input type="text" name="numOfItemBuyingUnit" class="form-control">
+                            <input type="text" name="numOfItemBuyingUnit" class="form-control" readonly>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-7 col-form-label">Minimum Restocking Alert:</label>
                         <div class="col-sm-5">
-                            <input type="text" name="numOfItemBuyingUnit" class="form-control">
+                            <input type="text" name="numOfItemBuyingUnit" class="form-control" readonly>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-7 col-form-label">Default Reorder Quantity:</label>
                         <div class="col-sm-5">
-                            <input type="text" name="numOfItemBuyingUnit" class="form-control">
+                            <input type="text" name="numOfItemBuyingUnit" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -272,7 +272,6 @@
                                     <td>{{$item->sellingUnit}}</td>
                                     <td>@if($item->status==1) Active @else Inactive @endif</td>
                                     <td>
-                                        <button type="button" class="btn btn-success btn-sm">View</button>
                                         <a href="{{ url('/product/'.$item->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                     </td>
                                 </tr>
