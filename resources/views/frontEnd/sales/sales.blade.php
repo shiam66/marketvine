@@ -57,22 +57,10 @@
                 @csrf
                 <div class="card-header py-2">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-3">
                             <h6 class="m-0 font-weight-bold text-primary">Sales New Item</h6>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group row" style="margin-bottom: 0px;">
-                                <label class="col-sm-5 col-form-label col-form-label-sm text-right">Date:</label>
-                                <div class="col-sm-7">
-                                    <input type="date" name="invoiceDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-3">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label col-form-label-sm text-right">Type:</label>
                                 <div class="col-sm-8">
@@ -83,12 +71,23 @@
                                     </select>
                                 </div>
                             </div>
-
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label col-form-label-sm text-right">Invoice #:</label>
                                 <div class="col-sm-8">
                                     <input type="text" name="invoice" class="form-control form-control-sm">
                                     <span class="text-danger">{{  $errors->has('invoice') ? $errors->first('invoice'): '' }}</span>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-bottom: 0px;">
+                                <label class="col-sm-4 col-form-label col-form-label-sm text-right">Date:</label>
+                                <div class="col-sm-8">
+                                    <input type="date" name="invoiceDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
                                 </div>
                             </div>
                         </div>
@@ -108,8 +107,8 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-6 col-form-label col-form-label-sm text-right">Customer PO #:</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-5 col-form-label col-form-label-sm text-right">Customer PO:</label>
+                                <div class="col-sm-7">
                                     <input type="text" name="customerPo" class="form-control form-control-sm">
                                     <span class="text-danger">{{  $errors->has('customerPo') ? $errors->first('customerPo'): '' }}</span>
                                 </div>

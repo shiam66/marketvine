@@ -72,10 +72,10 @@
                             </div>
 
                             <div class="col-md-5">
-                                <div class="form-group row" style="margin-bottom: 0px;">
-                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Balance:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" readonly value="58,58985.00">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 col-form-label col-form-label-sm text-right">ID #:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="receivedId" class="form-control form-control-sm">
                                     </div>
                                 </div>
                             </div>
@@ -89,8 +89,8 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group form-row">
-                                    <label class="col-sm-5 col-form-label col-form-label-sm text-right">Customer:</label>
-                                    <div class="col-sm-7">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Customer:</label>
+                                    <div class="col-sm-8">
                                         <select class="form-control form-control-sm select2" name="customerId" id="customerId" required>
                                             <option value="">Select Customer</option>
                                             @foreach($customers as $customer)
@@ -99,7 +99,15 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Date:</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" name="paymentDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="col-sm-4">
                                 <div class="form-group form-row">
                                     <label class="col-sm-5 col-form-label col-form-label-sm text-right">Payment Method:</label>
                                     <div class="col-sm-7">
@@ -109,28 +117,20 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">ID #:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="receivedId" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                                <div class="form-group form-row">
-                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Memo:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="memo" class="form-control form-control-sm">
+                                <div class="form-group form-row" >
+                                    <label class="col-sm-5 col-form-label col-form-label-sm text-right">Total Receive:</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="totalReceive" id="totalReceive" class="form-control form-control-sm">
+                                        <input type="hidden" name="totalReceiveDue" id="totalReceiveDue">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Date:</label>
+                                <div class="form-group form-row">
+                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Memo:</label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="paymentDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                        <input type="text" name="memo" class="form-control form-control-sm">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -182,7 +182,6 @@
 {{--                                        </td>--}}
 {{--                                    </tr>--}}
 {{--                                    @endfor--}}
-
                                     <tr>
                                         <td></td>
                                         <td></td>
@@ -242,12 +241,16 @@
         $('.select2').select2();
 
         $(document).ready(function() {
-            $(".receive").on('keyup change', calculateSum);
+            // $(".receive").on('keyup change', calculateSum);
+            // $(".applied").on('click', received);
 
             var _token = $('input[name="_token"]').val();
-            var customerId=0;
+            var customerId=0, receive=0;
+
             $('#customerId').change(function () {
                 customerId = $(this).val();
+                receive = $('#totalReceive').val();
+                $("#totalReceiveDue").val(receive);
                 $.ajax({
                     url: "{{ route('search.duesById') }}",
                     method: "POST",
@@ -255,18 +258,23 @@
                     success: function (result) {
                         $('#dataViews').html(result)
                         $(".receive").on('keyup change', calculateSum);
+                        $(".applied").on('click', received);
                     }
                 })
             })
+
+            $('#totalReceive').change(function () {
+                var tReceive=0;
+                tReceive = $(this).val();
+                $("#totalReceiveDue").val(tReceive);
+            })
+
         });
 
         function calculateSum() {
-            console.log(5)
-
             var $input = $(this);
             var $row = $input.closest('tr');
             var inputDataIndex = $(this).data('index');
-
             var discount = 0, due = 0, applied = 0, newDew = 0, dueSum = 0, appliedSum = 0;
 
             discount = parseFloat(document.getElementById("discount[" + inputDataIndex + "]").value);
@@ -312,6 +320,28 @@
                 $("#outOfBalance").val(0);
                 $("#outOfBalance").css("background-color", "white");
             }
+        }
+
+        function received() {
+            var $input = $(this);
+            var $row = $input.closest('tr');
+            var inputDataIndex = $(this).data('index');
+
+            var due = 0, totalReceive = 0, balance = 0;
+            totalReceive = parseFloat(document.getElementById("totalReceiveDue").value);
+            due = parseFloat(document.getElementById("dueAmount[" + inputDataIndex + "]").value);
+            if(totalReceive>0){
+                if (totalReceive>=due){
+                    balance = totalReceive - due;
+                    $row.find(".applied").val(due);
+                    $("#totalReceiveDue").val(balance);
+                }else{
+                    $row.find(".applied").val(totalReceive);
+                    $("#totalReceiveDue").val(0);
+                }
+            }
+
+            // console.log(totalReceive)
         }
 
     </script>

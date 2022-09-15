@@ -50,6 +50,7 @@ class ReceivedPaymentController extends Controller
     {
         $output = "";
         $index = 1;
+        $dueBalance=0;
 
         $sales = DB::table('sales')
             ->where('customerId', '=', $request->customerId)
@@ -58,6 +59,8 @@ class ReceivedPaymentController extends Controller
             ->get();
 
         foreach ($sales as $item) {
+            $dueBalance = $dueBalance + $item->balanceDue;
+
             $output .= '
             <tr>
                 <td class="form-control form-control-sm text-center" readonly>' . $index . '</td>
@@ -93,7 +96,7 @@ class ReceivedPaymentController extends Controller
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="bg-info text-white text-right"><span id="totalDueAmount">0</span></td>
+                <td class="bg-info text-white text-right"><span id="totalDueAmount">' . $dueBalance . '</span></td>
                 <td class="bg-info text-white text-right"><span id="totalAppliedAmount">0</span></td>
             </tr>
         ';
