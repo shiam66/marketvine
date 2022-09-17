@@ -80,8 +80,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
-                                <a href="{{ url('/payments-history') }}" class="btn btn-xs btn-primary">Payment History</a>
+                            <div class="col-md-2" id="payHistoryUrl">
+                                <a href="{{ url('/payments-history/0') }}" class="btn btn-xs btn-primary">Payment History</a>
                             </div>
                         </div>
                     </div>
@@ -190,6 +190,7 @@
                                         <td></td>
                                         <td class="bg-info text-white text-right"><span id="totalDueAmount">0</span></td>
                                         <td class="bg-info text-white text-right"><span id="totalAppliedAmount">0</span></td>
+                                        <input type="hidden" name="totalAppliedAmount1" id="totalAppliedAmount1">
                                     </tr>
                                     </tbody>
                                 </table>
@@ -245,12 +246,14 @@
             // $(".applied").on('click', received);
 
             var _token = $('input[name="_token"]').val();
-            var customerId=0, receive=0;
+            var customerId=0, receive=0, url="";
 
             $('#customerId').change(function () {
                 customerId = $(this).val();
+                url ='<a href=/payments-history/'+customerId+' class="btn btn-xs btn-primary">Payment History</a>';
                 receive = $('#totalReceive').val();
                 $("#totalReceiveDue").val(receive);
+                $("#payHistoryUrl").html(url);
                 $.ajax({
                     url: "{{ route('search.duesById') }}",
                     method: "POST",
@@ -262,13 +265,6 @@
                     }
                 })
             })
-
-            $('#totalReceive').change(function () {
-                var tReceive=0;
-                tReceive = $(this).val();
-                $("#totalReceiveDue").val(tReceive);
-            })
-
         });
 
         function calculateSum() {
@@ -293,8 +289,10 @@
             $row.find(".due").val(newDew);
             if (applied > newDew) {
                 $row.find(".applied").css("background-color", "red")
+                $row.find(".applied").css("color", "white")
             } else {
                 $row.find(".applied").css("background-color", "white")
+                $row.find(".applied").css("color", "#6e707e")
             }
 
             $(".due").each(function () {
@@ -312,6 +310,7 @@
                 }
             });
             $("#totalAppliedAmount").html(appliedSum);
+            $("#totalAppliedAmount1").val(appliedSum);
 
             if (appliedSum > dueSum) {
                 $("#outOfBalance").val(dueSum - appliedSum);
@@ -327,21 +326,27 @@
             var $row = $input.closest('tr');
             var inputDataIndex = $(this).data('index');
 
-            var due = 0, totalReceive = 0, balance = 0;
-            totalReceive = parseFloat(document.getElementById("totalReceiveDue").value);
+            var due = 0, totalReceive = 0, balance = 0, appliedSum = 0, appliedSum1 = 0;
+            totalReceive = parseFloat(document.getElementById("totalReceive").value);
+            appliedSum = parseFloat(document.getElementById("totalAppliedAmount1").value);
             due = parseFloat(document.getElementById("dueAmount[" + inputDataIndex + "]").value);
-            if(totalReceive>0){
-                if (totalReceive>=due){
-                    balance = totalReceive - due;
+
+            if (totalReceive > appliedSum) {
+                balance = totalReceive - appliedSum;
+                if (balance >= due) {
                     $row.find(".applied").val(due);
-                    $("#totalReceiveDue").val(balance);
-                }else{
-                    $row.find(".applied").val(totalReceive);
-                    $("#totalReceiveDue").val(0);
+                } else {
+                    $row.find(".applied").val(balance);
                 }
             }
 
-            // console.log(totalReceive)
+            $(".applied").each(function () {
+                if (this.value.length && !isNaN(this.value)) {
+                    appliedSum1 += parseFloat(this.value);
+                }
+            });
+            $("#totalAppliedAmount").html(appliedSum1);
+            $("#totalAppliedAmount1").val(appliedSum1);
         }
 
     </script>

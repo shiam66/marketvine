@@ -37,10 +37,14 @@ class ReceivedPaymentController extends Controller
                 $payment->save();
 
                 $dues = $request->dueAmount[$i] - $request->appliedAmount[$i];
-                if ($dues == 0) { $status = 1; } else { $status = 0; }
+                if ($dues == 0) {
+                    $status = 1;
+                } else {
+                    $status = 0;
+                }
 
-                $sales=
-                DB::update('update sales set balanceDue = ?, paymentStatus= ? where id = ?', [$dues, $status, $request->salesId[$i]]);
+                $sales =
+                    DB::update('update sales set balanceDue = ?, paymentStatus= ? where id = ?', [$dues, $status, $request->salesId[$i]]);
             }
         }
         return redirect()->back()->with('message', 'Payment has been successfully.');
@@ -50,7 +54,7 @@ class ReceivedPaymentController extends Controller
     {
         $output = "";
         $index = 1;
-        $dueBalance=0;
+        $dueBalance = 0;
 
         $sales = DB::table('sales')
             ->where('customerId', '=', $request->customerId)
@@ -98,9 +102,41 @@ class ReceivedPaymentController extends Controller
                 <td></td>
                 <td class="bg-info text-white text-right"><span id="totalDueAmount">' . $dueBalance . '</span></td>
                 <td class="bg-info text-white text-right"><span id="totalAppliedAmount">0</span></td>
+                <input type="hidden" name="totalAppliedAmount1" id="totalAppliedAmount1" value="0">
             </tr>
         ';
 
         echo $output;
+    }
+
+    public function paymentsHistory($id)
+    {
+        $customerById = Customer::find($id);
+        $customers = Customer::where('status', 1)->get();
+        $payments = Payment::where('customerId', $id)
+            ->orderByDesc('paymentDate')
+            ->get();
+
+        return view('frontEnd.receivePayments.paymentHistory', [
+            'customers' => $customers,
+            'customerById' => $customerById,
+            'payments' => $payments
+        ]);
+    }
+
+    public function paymentHistoryView(Request $request)
+    {
+        $customerById = Customer::find($request->customerId);
+        $customers = Customer::where('status', 1)->get();
+        $payments = Payment::where('customerId', $request->customerId)
+            ->whereBetween('paymentDate', [$request->fromDate, $request->toDate])
+            ->orderByDesc('paymentDate')
+            ->get();
+
+        return view('frontEnd.receivePayments.paymentHistory', [
+            'customers' => $customers,
+            'customerById' => $customerById,
+            'payments' => $payments
+        ]);
     }
 }

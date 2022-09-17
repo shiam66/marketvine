@@ -25,6 +25,8 @@ Route::post('/product/create', 'ProductController@createProduct')->middleware('a
 
 // For Received Payment Controller List
 Route::get('/receive-payments', 'ReceivedPaymentController@receivePayments')->middleware('auth');
+Route::get('/payments-history/{id}', 'ReceivedPaymentController@paymentsHistory')->middleware('auth');
+Route::post('/payment-history-view', 'ReceivedPaymentController@paymentHistoryView')->middleware('auth');
 Route::post('/customer-receive', 'ReceivedPaymentController@customerReceive')->middleware('auth');
 Route::post('/duesByAjax', 'ReceivedPaymentController@duesById')->name('search.duesById')->middleware('auth');
 
