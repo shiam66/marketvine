@@ -115,7 +115,7 @@ class ReceivedPaymentController extends Controller
         $customerById = Customer::find($id);
         $customers = Customer::where('status', 1)->get();
         $payments = Payment::where('customerId', $id)
-            ->orderByDesc('paymentDate')
+            ->orderBy('paymentDate')
             ->get();
 
         return view('frontEnd.receivePayments.paymentHistory', [

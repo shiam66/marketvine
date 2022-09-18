@@ -55,7 +55,7 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group form-row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Customer:</label>
                                     <div class="col-sm-8">
@@ -77,9 +77,9 @@
                                     <label class="col-sm-5 col-form-label col-form-label-sm text-right">From Date:</label>
                                     <div class="col-sm-7">
                                         @if($fromDate==null)
-                                            <input type="date" name="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                            <input type="date" name="fromDate" id="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
                                         @else
-                                            <input type="date" name="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($fromDate)) }}">
+                                            <input type="date" name="fromDate" id="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($fromDate)) }}">
                                         @endif
                                     </div>
                                 </div>
@@ -89,20 +89,23 @@
                                     <label class="col-sm-5 col-form-label col-form-label-sm text-right">To Date:</label>
                                     <div class="col-sm-7">
                                         @if($toDate==null)
-                                            <input type="date" name="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                            <input type="date" name="toDate" id="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
                                         @else
-                                            <input type="date" name="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($toDate)) }}">
+                                            <input type="date" name="toDate" id="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($toDate)) }}">
                                         @endif
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="form-group row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-8">
                                         <center>
                                             <button type="submit" class="btn btn-primary">Payment View</button>
                                         </center>
+                                    </div>
+                                    <div class="col-sm-4" id="payHistoryUrl">
+                                        <a href="{{ url('/payment-report/1/0/0') }}" target="_blank" class="btn btn-xs btn-primary">PDF</a>
                                     </div>
                                 </div>
                             </div>
@@ -165,12 +168,32 @@
         $('.select2').select2();
 
         $(document).ready(function() {
-            var customerId=0;
+            var customerId=0, url="", fDate="5", tDate="6";
 
             $('#customerId').change(function () {
                 customerId = $(this).val();
-                $("#totalReceiveDue").val(customerId);
+                fDate=$('#fromDate').val();
+                tDate=$('#toDate').val();
+                url = '<a href=/payment-report/' + customerId + '/' + fDate + '/' + tDate + ' target="_blank" class="btn btn-xs btn-primary">PDF</a>';
+                $("#payHistoryUrl").html(url);
             })
+
+            $('#fromDate').change(function () {
+                customerId = $('#customerId').val();
+                fDate=$(this).val();
+                tDate=$('#toDate').val();
+                url = '<a href=/payment-report/' + customerId + '/' + fDate + '/' + tDate + ' target="_blank" class="btn btn-xs btn-primary">PDF</a>';
+                $("#payHistoryUrl").html(url);
+            })
+
+            $('#toDate').change(function () {
+                customerId = $('#customerId').val();
+                fDate=$('#fromDate').val();
+                tDate=$(this).val();
+                url = '<a href=/payment-report/' + customerId + '/' + fDate + '/' + tDate + ' target="_blank" class="btn btn-xs btn-primary">PDF</a>';
+                $("#payHistoryUrl").html(url);
+            })
+
         });
     </script>
 @endsection

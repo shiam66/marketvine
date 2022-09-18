@@ -46,6 +46,10 @@ Route::post('/itemNameByAjax', 'SalesController@itemName')->name('search.itemNam
 Route::post('/itemCodeByAjax', 'SalesController@itemCode')->name('search.itemCode')->middleware('auth');
 Route::post('/othersByAjax', 'SalesController@others')->name('search.others')->middleware('auth');
 
+// For PDF Controller List
+Route::get('/payment-report/{id}/{fDate}/{tDate}', 'PdfController@paymentReport')->middleware('auth');
+
+
 Auth::routes();
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
