@@ -43,8 +43,7 @@ class ReceivedPaymentController extends Controller
                     $status = 0;
                 }
 
-                $sales =
-                    DB::update('update sales set balanceDue = ?, paymentStatus= ? where id = ?', [$dues, $status, $request->salesId[$i]]);
+                $sales = DB::update('update sales set balanceDue = ?, paymentStatus= ? where id = ?', [$dues, $status, $request->salesId[$i]]);
             }
         }
         return redirect()->back()->with('message', 'Payment has been successfully.');
@@ -111,6 +110,8 @@ class ReceivedPaymentController extends Controller
 
     public function paymentsHistory($id)
     {
+        $fromDate="";
+        $toDate="";
         $customerById = Customer::find($id);
         $customers = Customer::where('status', 1)->get();
         $payments = Payment::where('customerId', $id)
@@ -120,7 +121,9 @@ class ReceivedPaymentController extends Controller
         return view('frontEnd.receivePayments.paymentHistory', [
             'customers' => $customers,
             'customerById' => $customerById,
-            'payments' => $payments
+            'payments' => $payments,
+            'fromDate' => $fromDate,
+            'toDate' => $toDate
         ]);
     }
 
@@ -130,13 +133,15 @@ class ReceivedPaymentController extends Controller
         $customers = Customer::where('status', 1)->get();
         $payments = Payment::where('customerId', $request->customerId)
             ->whereBetween('paymentDate', [$request->fromDate, $request->toDate])
-            ->orderByDesc('paymentDate')
+            ->orderBy('paymentDate')
             ->get();
 
         return view('frontEnd.receivePayments.paymentHistory', [
             'customers' => $customers,
             'customerById' => $customerById,
-            'payments' => $payments
+            'payments' => $payments,
+            'fromDate' => $request->fromDate,
+            'toDate' => $request->toDate
         ]);
     }
 }

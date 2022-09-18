@@ -60,7 +60,11 @@
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Customer:</label>
                                     <div class="col-sm-8">
                                         <select class="form-control form-control-sm select2" name="customerId" id="customerId" required>
-                                            <option value="{{ $customerById->id }}">{{ $customerById->customerName }}</option>
+                                            @if($customerById==null)
+                                                <option value="">Select Customer</option>
+                                            @else
+                                                <option value="{{ $customerById->id }}">{{ $customerById->customerName }}</option>
+                                            @endif
                                             @foreach($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->customerName }}</option>
                                             @endforeach
@@ -72,7 +76,11 @@
                                 <div class="form-group row">
                                     <label class="col-sm-5 col-form-label col-form-label-sm text-right">From Date:</label>
                                     <div class="col-sm-7">
-                                        <input type="date" name="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                        @if($fromDate==null)
+                                            <input type="date" name="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                        @else
+                                            <input type="date" name="fromDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($fromDate)) }}">
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +88,11 @@
                                 <div class="form-group row">
                                     <label class="col-sm-5 col-form-label col-form-label-sm text-right">To Date:</label>
                                     <div class="col-sm-7">
-                                        <input type="date" name="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                        @if($toDate==null)
+                                            <input type="date" name="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                        @else
+                                            <input type="date" name="toDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($toDate)) }}">
+                                        @endif
                                     </div>
                                 </div>
                             </div>
