@@ -86,18 +86,35 @@
         </a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('/sales-table-analysis') }}">
-            <i class="fab fa-fw fa-product-hunt"></i>
-            <span>Sales Table Analysis</span>
-        </a>
-    </li>
+{{--    <li class="nav-item">--}}
+{{--        <a class="nav-link" href="{{ url('/sales-table-analysis') }}">--}}
+{{--            <i class="fab fa-fw fa-product-hunt"></i>--}}
+{{--            <span>Sales Table Analysis</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/purchases') }}">
             <i class="fab fa-fw fa-product-hunt"></i>
             <span>Purchases</span>
         </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Reports</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">All Reports:</h6>
+                <a class="collapse-item" href="{{ url('/sales-table-analysis') }}">Sales Analysis</a>
+                <a class="collapse-item" href="{{ url('/productCusWSale') }}">Product Customer Wise Sale Volume</a>
+                <a class="collapse-item" href="{{ url('/ageingSummery') }}">Ageing Summery</a>
+                <a class="collapse-item" href="{{ url('/ageingDetails') }}">Ageing Details</a>
+            </div>
+        </div>
     </li>
 
 

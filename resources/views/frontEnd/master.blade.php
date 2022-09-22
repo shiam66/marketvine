@@ -22,6 +22,9 @@
     <link href="{{asset('frontEnd/assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <link href="{{asset('frontEnd/assets/vendor/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet">
 
+    <!-- Custom styles for our style -->
+    <link href="{{asset('frontEnd/assets/custome.css')}}" rel="stylesheet">
+
     @yield('css')
 </head>
 

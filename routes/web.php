@@ -53,3 +53,8 @@ Route::get('/payment-report/{id}/{fDate}/{tDate}', 'PdfController@paymentReport'
 Auth::routes();
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+
+
+Route::get('/productCusWSale', 'WelcomeController@productCusWSale')->middleware('auth');
+Route::get('/ageingSummery', 'WelcomeController@ageingSummery')->middleware('auth');
+Route::get('/ageingDetails', 'WelcomeController@ageingDetails')->middleware('auth');
