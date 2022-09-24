@@ -18,17 +18,4 @@ class WelcomeController extends Controller
     public function index(){
         return view('frontEnd.home.homeContent');
     }
-
-
-    public function productCusWSale(){
-        return view('frontEnd.reports.productCusWSale');
-    }
-
-    public function ageingSummery(){
-        return view('frontEnd.reports.ageingSummery');
-    }
-
-    public function ageingDetails(){
-        return view('frontEnd.reports.ageingDetails');
-    }
 }

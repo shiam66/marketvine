@@ -26,14 +26,14 @@ class ReceivedPaymentController extends Controller
                 $payment->customerId = $request->customerId;
                 $payment->receivedId = $request->receivedId;
                 $payment->memo = $request->memo;
-                $payment->paymentMethod = $request->paymentMethod;
-                $payment->details = $request->details;
-                $payment->depositTo = $request->depositTo;
                 $payment->salesId = $request->salesId[$i];
                 $payment->invoice = $request->invoice[$i];
                 $payment->invoiceDate = $request->salesDate[$i];
+                $payment->paymentMethod = $request->paymentMethod;
                 $payment->discountAmount = $request->discount[$i];
                 $payment->receivedAmount = $request->appliedAmount[$i];
+                $payment->details = $request->details;
+                $payment->depositTo = $request->depositTo;
                 $payment->save();
 
                 $dues = $request->dueAmount[$i] - $request->appliedAmount[$i];
@@ -108,40 +108,4 @@ class ReceivedPaymentController extends Controller
         echo $output;
     }
 
-    public function paymentsHistory($id)
-    {
-        $fromDate="";
-        $toDate="";
-        $customerById = Customer::find($id);
-        $customers = Customer::where('status', 1)->get();
-        $payments = Payment::where('customerId', $id)
-            ->orderBy('paymentDate')
-            ->get();
-
-        return view('frontEnd.receivePayments.paymentHistory', [
-            'customers' => $customers,
-            'customerById' => $customerById,
-            'payments' => $payments,
-            'fromDate' => $fromDate,
-            'toDate' => $toDate
-        ]);
-    }
-
-    public function paymentHistoryView(Request $request)
-    {
-        $customerById = Customer::find($request->customerId);
-        $customers = Customer::where('status', 1)->get();
-        $payments = Payment::where('customerId', $request->customerId)
-            ->whereBetween('paymentDate', [$request->fromDate, $request->toDate])
-            ->orderBy('paymentDate')
-            ->get();
-
-        return view('frontEnd.receivePayments.paymentHistory', [
-            'customers' => $customers,
-            'customerById' => $customerById,
-            'payments' => $payments,
-            'fromDate' => $request->fromDate,
-            'toDate' => $request->toDate
-        ]);
-    }
 }

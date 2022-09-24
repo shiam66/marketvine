@@ -345,5 +345,6 @@
             $("#totalAppliedAmount1").val(appliedSum1);
         }
 
+
     </script>
 @endsection
