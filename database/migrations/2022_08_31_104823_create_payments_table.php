@@ -22,6 +22,7 @@ class CreatePaymentsTable extends Migration
             $table->bigInteger('salesId');
             $table->string('invoice');
             $table->date('invoiceDate');
+            $table->float('dueAmount', 10, 2);
             $table->float('discountAmount', 10, 2)->nullable();
             $table->float('receivedAmount', 10, 2);
             $table->tinyInteger('paymentMethod');

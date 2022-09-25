@@ -29,9 +29,10 @@ class ReceivedPaymentController extends Controller
                 $payment->salesId = $request->salesId[$i];
                 $payment->invoice = $request->invoice[$i];
                 $payment->invoiceDate = $request->salesDate[$i];
-                $payment->paymentMethod = $request->paymentMethod;
+                $payment->dueAmount = $request->due[$i];
                 $payment->discountAmount = $request->discount[$i];
                 $payment->receivedAmount = $request->appliedAmount[$i];
+                $payment->paymentMethod = $request->paymentMethod;
                 $payment->details = $request->details;
                 $payment->depositTo = $request->depositTo;
                 $payment->save();

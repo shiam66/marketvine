@@ -112,7 +112,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                <table class="table table-sm table-bordered">
+                                <table class="table table-sm table-bordered" id="dataTable">
                                     <thead class="bg-info text-white">
                                     <tr>
                                         <th style="text-align: center; width: 9%;">SL</th>
@@ -136,10 +136,10 @@
                                                 <td class="text-left"><span>{{ date('d-m-Y', strtotime($payment->paymentDate)) }}</span></td>
                                                 <td class="text-left"><span>{{ $payment->invoice }}</span></td>
                                                 <td class="text-left"><span>{{ date('d-m-Y', strtotime($payment->invoiceDate)) }}</span></td>
-                                                <td class="text-right"><span>0</span></td>
+                                                <td class="text-right"><span>{{ $payment->dueAmount }}</span></td>
                                                 <td class="text-right"><span>{{ $payment->discountAmount }}</span></td>
                                                 <td class="text-right"><span>{{ $payment->receivedAmount }}</span></td>
-                                                <td class="text-right"><span>0</span></td>
+                                                <td class="text-right"><span>{{ $payment->dueAmount - $payment->discountAmount - $payment->receivedAmount }}</span></td>
                                             </tr>
                                         @endforeach
                                         <tr>
