@@ -48,6 +48,7 @@ Route::post('/payment-history-view', 'ReportController@paymentHistoryView')->mid
 Route::get('/sales-table-analysis', 'ReportController@salesTableAnalysis')->middleware('auth');
 Route::post('/salesTableAnalysisViewDataByAjax', 'ReportController@salesByYear')->name('search.salesByYear')->middleware('auth');
 Route::get('/productCusWSale', 'ReportController@productCusWSale')->middleware('auth');
+Route::post('/productByCustomerAjax', 'ReportController@productByCustomer')->name('search.productByCustomer')->middleware('auth');
 Route::get('/ageingSummery', 'ReportController@ageingSummery')->middleware('auth');
 Route::get('/ageingDetails', 'ReportController@ageingDetails')->middleware('auth');
 

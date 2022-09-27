@@ -111,7 +111,7 @@
                 <h6 class="collapse-header">All Reports:</h6>
                 <a class="collapse-item" href="{{ url('/payments-history/0') }}">Payment History</a>
                 <a class="collapse-item" href="{{ url('/sales-table-analysis') }}">Sales Analysis</a>
-                <a class="collapse-item" href="{{ url('/productCusWSale') }}">Product Customer Wise Sale Volume</a>
+                <a class="collapse-item" href="{{ url('/productCusWSale') }}">Sales-Prd Vs Customer(Vol)</a>
                 <a class="collapse-item" href="{{ url('/ageingSummery') }}">Ageing Summery</a>
                 <a class="collapse-item" href="{{ url('/ageingDetails') }}">Ageing Details</a>
             </div>

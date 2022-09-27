@@ -18,8 +18,8 @@ class ReportController extends Controller
             ->orderBy('paymentDate')
             ->get();
 
-        $maxDate=DB::select("SELECT MAX(paymentDate) AS maxDate FROM payments WHERE customerId='$id'");
-        $minDate=DB::select("SELECT MIN(paymentDate) AS minDate FROM payments WHERE customerId='$id'");
+        $maxDate = DB::select("SELECT MAX(paymentDate) AS maxDate FROM payments WHERE customerId='$id'");
+        $minDate = DB::select("SELECT MIN(paymentDate) AS minDate FROM payments WHERE customerId='$id'");
 
         return view('frontEnd.reports.paymentHistory', [
             'customers' => $customers,
@@ -534,15 +534,87 @@ class ReportController extends Controller
         }
     }
 
-    public function productCusWSale(){
-        return view('frontEnd.reports.productCusWSale');
+    public function productCusWSale()
+    {
+        $salesYears = DB::table('sales_details')
+            ->groupBy(DB::raw('YEAR(invoiceDate)'))
+            ->orderByDesc(DB::raw('YEAR(invoiceDate)'))
+            ->select(DB::raw('YEAR(invoiceDate) as salesyear'))
+            ->get();
+
+        $product= DB::select('SELECT p.id,p.productName FROM sales_details s LEFT JOIN products p ON p.id=s.itemId GROUP BY p.id');
+
+        return view('frontEnd.reports.productCusWSale', [
+            'salesYears' => $salesYears,
+            'product'=>$product
+        ]);
     }
 
-    public function ageingSummery(){
+    public function productByCustomer(Request $request)
+    {
+        $productId = $request->get('productId');
+        $sYear = $request->get('sYear');
+        $sumProQty = 0;
+        $sumMonth[] = 0;
+        $output = "";
+
+        $customers = DB::select("SELECT c.id, c.customerName, SUM(qty) as sumProQty FROM sales_details s LEFT JOIN customers c ON c.id=s.customerId WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' GROUP BY c.id, c.customerName");
+
+        foreach ($customers as $customer) {
+            $customerName = $customer->customerName;
+            $sumProQty = $sumProQty + $customer->sumProQty;
+
+            $output .= '
+                <tr>
+                    <td><b>' . $customerName . '</b></td>
+            ';
+            for ($month = 1; $month <= 12; $month++) {
+                $sales = DB::select("SELECT SUM(qty) AS sumQty FROM sales_details WHERE customerId='$customer->id' AND itemId='$productId' AND YEAR(invoiceDate)='$sYear' AND MONTH(invoiceDate)='$month'");
+                $output .= '
+                    <td style="text-align: center;"><span class="sw_text">' . $sales[0]->sumQty . '</span></td>
+                ';
+            }
+            $output .= '
+                    <td style="text-align: center;"><span class="sw_text">' . $customer->sumProQty . '</span></td>
+                </tr>
+            ';
+        }
+
+        for ($month = 1; $month <= 12; $month++) {
+            $sumMonth[] = DB::select("SELECT SUM(qty) AS sumQty FROM sales_details WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' AND MONTH(invoiceDate)='$month'");
+        }
+        $footer='
+            <tr>
+                <th class="text-right"><b>Total:</b></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[1][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[2][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[3][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[4][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[5][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[6][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[7][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[8][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[9][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[10][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[11][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[12][0]->sumQty .'</span></th>
+                <th style="text-align: center;"><span class="sw_text">'. $sumProQty .'</span></th>
+            </tr>
+        ';
+
+        $outputs['head'] = $output;
+        $outputs['footer'] = $footer;
+
+        return $outputs;
+    }
+
+    public function ageingSummery()
+    {
         return view('frontEnd.reports.ageingSummery');
     }
 
-    public function ageingDetails(){
+    public function ageingDetails()
+    {
         return view('frontEnd.reports.ageingDetails');
     }
 }

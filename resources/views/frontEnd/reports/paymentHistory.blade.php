@@ -142,18 +142,20 @@
                                                 <td class="text-right"><span>{{ $payment->dueAmount - $payment->discountAmount - $payment->receivedAmount }}</span></td>
                                             </tr>
                                         @endforeach
-                                        <tr>
-                                            <td class="bg-info"></td>
-                                            <td class="bg-info"></td>
-                                            <td class="bg-info"></td>
-                                            <td class="bg-info"></td>
-                                            <td class="bg-info"></td>
-                                            <td class="bg-info"></td>
-                                            <td class="bg-info text-white text-right"><span>{{ $totalPay }}</span></td>
-                                            <td class="bg-info"></td>
-                                        </tr>
                                     @endif
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td class="bg-info"></td>
+                                        <td class="bg-info"></td>
+                                        <td class="bg-info"></td>
+                                        <td class="bg-info"></td>
+                                        <td class="bg-info"></td>
+                                        <td class="bg-info"></td>
+                                        <td class="bg-info text-white text-right"><span>{{ $totalPay }}</span></td>
+                                        <td class="bg-info"></td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

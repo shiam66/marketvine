@@ -59,13 +59,15 @@
                     @csrf
                     <div class="card-header py-2">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="form-group row" style="margin-bottom: 0px;">
-                                    <label class="col-sm-4 col-form-label col-form-label-sm text-right">Product:</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control form-control-sm select2" name="depositTo" id="depositTo">
-                                            <option value="1">1-1100 ABC</option>
-                                            <option value="2">2-1200 CED</option>
+                                    <label class="col-sm-3 col-form-label col-form-label-sm text-right">Product:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control form-control-sm select2" name="productId" id="productId">
+                                            <option value="" disabled selected>Select Product</option>
+                                            @foreach($product as $item)
+                                                <option value="{{ $item->id }}">{{ $item->productName }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -76,9 +78,9 @@
                                     <label class="col-sm-5 col-form-label col-form-label-sm">Sales Year</label>
                                     <div class="col-sm-7">
                                         <select class="form-control form-control-sm" id="sYear" name="sYear">
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2022">2022</option>
+                                            @foreach($salesYears as $item)
+                                            <option value="{{ $item->salesyear }}">{{ $item->salesyear }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -101,7 +103,7 @@
                                 <table class="table table-sm table-bordered">
                                     <thead class="bg-info text-white">
                                     <tr>
-                                        <th style="width: 190px;">Customer Name</th>
+                                        <th style="width: 250px;">Customer Name</th>
                                         <th style="text-align: center;">Jan</th>
                                         <th style="text-align: center;">Feb</th>
                                         <th style="text-align: center;">Mar</th>
@@ -119,40 +121,40 @@
                                     </thead>
 
                                     <tbody class="sales_sm_field" id="dataViews">
-                                        <tr>
-                                            <td><b>AT Haque</b></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">120kg</span></td>
-                                        </tr>
+{{--                                        <tr>--}}
+{{--                                            <td><b>AT Haque</b></td>--}}
+{{--                                            <td style="text-align: right;"><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">10kg</span></td>--}}
+{{--                                            <td><span class="sw_text">120kg</span></td>--}}
+{{--                                        </tr>--}}
                                     </tbody>
 
-                                    <tfoot>
+                                    <tfoot class="bg-info text-white" id="footer">
                                         <tr>
-                                            <td class="text-right"><b>Total:</b></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">10kg</span></td>
-                                            <td><span class="sw_text">120kg</span></td>
+                                            <th class="text-right"><b>Total:</b></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">10kg</span></th>
+                                            <th><span class="sw_text">120kg</span></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -172,5 +174,41 @@
 
     <script>
         $('.select2').select2();
+
+        $(document).ready(function() {
+            var _token = $('input[name="_token"]').val();
+            var productId = 0, sYear = 0;
+
+            $('#productId').change(function () {
+                productId = $(this).val();
+                sYear = $('#sYear').val();
+                $.ajax({
+                    url: "{{ route('search.productByCustomer') }}",
+                    method: "POST",
+                    data: {productId: productId, sYear:sYear, _token: _token},
+                    success: function (result) {
+                        console.log(result);
+                        $('#dataViews').html(result.head)
+                        $('#footer').html(result.footer)
+                    }
+                })
+            })
+
+            $('#sYear').change(function () {
+                productId = $('#productId').val();
+                sYear = $(this).val();
+                $.ajax({
+                    url: "{{ route('search.productByCustomer') }}",
+                    method: "POST",
+                    data: {productId: productId, sYear:sYear, _token: _token},
+                    success: function (result) {
+                        console.log(result);
+                        $('#dataViews').html(result.head)
+                        $('#footer').html(result.footer)
+                    }
+                })
+            })
+        });
+
     </script>
 @endsection
