@@ -292,8 +292,6 @@
             $('#budgetYear').change(function () {
                 var yearId = $(this).val();
                 var _token = $('input[name="_token"]').val();
-                // console.log(_token);
-                console.log(yearId);
                 $.ajax({
                     url: "{{ route('search.budgetByYear') }}",
                     method: "POST",

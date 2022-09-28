@@ -46,11 +46,12 @@ Route::post('/othersByAjax', 'SalesController@others')->name('search.others')->m
 Route::get('/payments-history/{id}', 'ReportController@paymentsHistory')->middleware('auth');
 Route::post('/payment-history-view', 'ReportController@paymentHistoryView')->middleware('auth');
 Route::get('/sales-table-analysis', 'ReportController@salesTableAnalysis')->middleware('auth');
-Route::post('/salesTableAnalysisViewDataByAjax', 'ReportController@salesByYear')->name('search.salesByYear')->middleware('auth');
 Route::get('/productCusWSale', 'ReportController@productCusWSale')->middleware('auth');
-Route::post('/productByCustomerAjax', 'ReportController@productByCustomer')->name('search.productByCustomer')->middleware('auth');
 Route::get('/ageingSummery', 'ReportController@ageingSummery')->middleware('auth');
 Route::get('/ageingDetails', 'ReportController@ageingDetails')->middleware('auth');
+Route::post('/salesTableAnalysisViewDataByAjax', 'ReportController@salesByYear')->name('search.salesByYear')->middleware('auth');
+Route::post('/productByCustomerAjax', 'ReportController@productByCustomer')->name('search.productByCustomer')->middleware('auth');
+Route::post('/ageingDetailAjax', 'ReportController@ageingDetail')->name('search.ageingDetail')->middleware('auth');
 
 // For PDF Controller List
 Route::get('/payment-report/{id}/{fDate}/{tDate}', 'PdfController@paymentReport')->middleware('auth');

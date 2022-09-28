@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\SalesBudget;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -504,7 +505,6 @@ class ReportController extends Controller
                 <td class="' . $this->setColour($recAchvPerDec) . ' text-white"><span class="sw_text">' . $recAchvPerDec . '%</span></td>
             </tr>
         ';
-
         echo $output;
     }
 
@@ -539,10 +539,10 @@ class ReportController extends Controller
         $salesYears = DB::table('sales_details')
             ->groupBy(DB::raw('YEAR(invoiceDate)'))
             ->orderByDesc(DB::raw('YEAR(invoiceDate)'))
-            ->select(DB::raw('YEAR(invoiceDate) as salesyear'))
+            ->select(DB::raw('YEAR(invoiceDate) as salesYear'))
             ->get();
 
-        $product= DB::select('SELECT p.id,p.productName FROM sales_details s LEFT JOIN products p ON p.id=s.itemId GROUP BY p.id');
+        $product= DB::select("SELECT p.id,p.productName FROM sales_details s LEFT JOIN products p ON p.id=s.itemId GROUP BY p.id");
 
         return view('frontEnd.reports.productCusWSale', [
             'salesYears' => $salesYears,
@@ -556,56 +556,57 @@ class ReportController extends Controller
         $sYear = $request->get('sYear');
         $sumProQty = 0;
         $sumMonth[] = 0;
-        $output = "";
+        $header="";
+        $footer="";
 
-        $customers = DB::select("SELECT c.id, c.customerName, SUM(qty) as sumProQty FROM sales_details s LEFT JOIN customers c ON c.id=s.customerId WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' GROUP BY c.id, c.customerName");
+        $customers = DB::select("SELECT c.id, c.customerName, SUM(qty) as sumProQty, p.sellingUnit FROM sales_details s LEFT JOIN customers c ON c.id=s.customerId LEFT JOIN products p ON p.id=s.itemId WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' GROUP BY c.id, c.customerName, p.sellingUnit");
 
-        foreach ($customers as $customer) {
-            $customerName = $customer->customerName;
-            $sumProQty = $sumProQty + $customer->sumProQty;
+        if ($customers!=null) {
+            foreach ($customers as $customer) {
+                $customerName = $customer->customerName;
+                $sumProQty = $sumProQty + $customer->sumProQty;
 
-            $output .= '
+                $header .= '
                 <tr>
                     <td><b>' . $customerName . '</b></td>
             ';
-            for ($month = 1; $month <= 12; $month++) {
-                $sales = DB::select("SELECT SUM(qty) AS sumQty FROM sales_details WHERE customerId='$customer->id' AND itemId='$productId' AND YEAR(invoiceDate)='$sYear' AND MONTH(invoiceDate)='$month'");
-                $output .= '
+                for ($month = 1; $month <= 12; $month++) {
+                    $sales = DB::select("SELECT SUM(qty) AS sumQty FROM sales_details WHERE customerId='$customer->id' AND itemId='$productId' AND YEAR(invoiceDate)='$sYear' AND MONTH(invoiceDate)='$month'");
+                    $header .= '
                     <td style="text-align: center;"><span class="sw_text">' . $sales[0]->sumQty . '</span></td>
                 ';
-            }
-            $output .= '
+                }
+                $header .= '
                     <td style="text-align: center;"><span class="sw_text">' . $customer->sumProQty . '</span></td>
                 </tr>
             ';
-        }
+            }
 
-        for ($month = 1; $month <= 12; $month++) {
-            $sumMonth[] = DB::select("SELECT SUM(qty) AS sumQty FROM sales_details WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' AND MONTH(invoiceDate)='$month'");
-        }
-        $footer='
+            for ($month = 1; $month <= 12; $month++) {
+                $sumMonth[] = DB::select("SELECT SUM(qty) AS sumQty FROM sales_details WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' AND MONTH(invoiceDate)='$month'");
+            }
+            $footer = '
             <tr>
-                <th class="text-right"><b>Total:</b></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[1][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[2][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[3][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[4][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[5][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[6][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[7][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[8][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[9][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[10][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[11][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumMonth[12][0]->sumQty .'</span></th>
-                <th style="text-align: center;"><span class="sw_text">'. $sumProQty .'</span></th>
+                <th class="text-right"><b>Total (' . $customers[0]->sellingUnit . '):</b></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[1][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[2][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[3][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[4][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[5][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[6][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[7][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[8][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[9][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[10][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[11][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumMonth[12][0]->sumQty . '</span></th>
+                <th style="text-align: center;"><span class="sw_text">' . $sumProQty . '</span></th>
             </tr>
         ';
-
-        $outputs['head'] = $output;
-        $outputs['footer'] = $footer;
-
-        return $outputs;
+        }
+        $output['head'] = $header;
+        $output['footer'] = $footer;
+        return $output;
     }
 
     public function ageingSummery()
@@ -615,6 +616,88 @@ class ReportController extends Controller
 
     public function ageingDetails()
     {
-        return view('frontEnd.reports.ageingDetails');
+        $customers = Customer::all();
+        return view('frontEnd.reports.ageingDetails', [
+            'customers'=>$customers
+        ]);
+    }
+
+    public function ageingDetail(Request $request){
+        $customerId = $request->get('customerId');
+        $to = Carbon::parse($request->get('invDate'));
+        $header="";
+        $footer="";
+
+        $salesDue=DB::select("SELECT invoice, invoiceDate, balanceDue FROM sales WHERE customerId='$customerId' AND paymentStatus='0'");
+//        $header= array_sum($salesDue[]->balanceDue);
+//        return $header;
+
+        if ($salesDue!=null) {
+            foreach ($salesDue as $due) {
+                $from = Carbon::parse($due->invoiceDate);
+                $days = $to->diffInDays($from);
+                $header .='
+                    <tr>
+                        <td>'. $due->invoice .'</td>
+                        <td>'. $due->invoiceDate .'</td>
+                        <td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>
+                ';
+                if ($days<=30){
+                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
+                }else{
+                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                }
+                if ($days>30 and $days<=60){
+                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
+                }else{
+                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                }
+                if ($days>60 and $days<=90){
+                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
+                }else{
+                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                }
+                if ($days>90 and $days<=120){
+                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
+                }else{
+                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                }
+                if ($days>120){
+                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
+                }else{
+                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                }
+                $header .='
+                    </tr>
+                ';
+            }
+            $footer .='
+                <tr>
+                    <th class="text-right" colspan="2">Total</th>
+                    <th class="text-right"><span class="sw_text">'. 0 .'</span></th>
+                    <th class="text-right"><span class="sw_text">0.00</span></th>
+                    <th class="text-right"><span class="sw_text">0.00</span></th>
+                    <th class="text-right"><span class="sw_text">0.00</span></th>
+                    <th class="text-right"><span class="sw_text">0.00</span></th>
+                    <th class="text-right"><span class="sw_text">152222.00</span></th>
+                </tr>
+                <tr>
+                    <th class="text-right" colspan="7">Grand Total</th>
+                    <th class="text-right"><span class="sw_text">258745555.00</span></th>
+                </tr>
+                <tr>
+                    <th class="text-right" colspan="2">Ageing Percent</th>
+                    <th class="text-right"><span class="sw_text">0.00%</span></th>
+                    <th class="text-right"><span class="sw_text">0.00%</span></th>
+                    <th class="text-right"><span class="sw_text">0.00%</span></th>
+                    <th class="text-right"><span class="sw_text">0.00%</span></th>
+                    <th class="text-right"><span class="sw_text">0.00%</span></th>
+                    <th class="text-right"><span class="sw_text">100.00%</span></th>
+                </tr>
+            ';
+        }
+        $output['header']=$header;
+        $output['footer']=$footer;
+        return $output;
     }
 }

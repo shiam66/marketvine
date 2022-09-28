@@ -79,7 +79,7 @@
                                     <div class="col-sm-7">
                                         <select class="form-control form-control-sm" id="sYear" name="sYear">
                                             @foreach($salesYears as $item)
-                                            <option value="{{ $item->salesyear }}">{{ $item->salesyear }}</option>
+                                            <option value="{{ $item->salesYear }}">{{ $item->salesYear }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -121,41 +121,9 @@
                                     </thead>
 
                                     <tbody class="sales_sm_field" id="dataViews">
-{{--                                        <tr>--}}
-{{--                                            <td><b>AT Haque</b></td>--}}
-{{--                                            <td style="text-align: right;"><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">10kg</span></td>--}}
-{{--                                            <td><span class="sw_text">120kg</span></td>--}}
-{{--                                        </tr>--}}
                                     </tbody>
 
                                     <tfoot class="bg-info text-white" id="footer">
-                                        <tr>
-                                            <th class="text-right"><b>Total:</b></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">10kg</span></th>
-                                            <th><span class="sw_text">120kg</span></th>
-                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -187,7 +155,6 @@
                     method: "POST",
                     data: {productId: productId, sYear:sYear, _token: _token},
                     success: function (result) {
-                        console.log(result);
                         $('#dataViews').html(result.head)
                         $('#footer').html(result.footer)
                     }
@@ -202,7 +169,6 @@
                     method: "POST",
                     data: {productId: productId, sYear:sYear, _token: _token},
                     success: function (result) {
-                        console.log(result);
                         $('#dataViews').html(result.head)
                         $('#footer').html(result.footer)
                     }

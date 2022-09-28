@@ -63,9 +63,11 @@
                                 <div class="form-group row" style="margin-bottom: 0px;">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Customer:</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control form-control-sm select2" name="depositTo" id="depositTo">
-                                            <option value="1">1-1100 ABC</option>
-                                            <option value="2">2-1200 CED</option>
+                                        <select class="form-control form-control-sm select2" name="customerId" id="customerId">
+                                            <option value="">Select Customer</option>
+                                            @foreach($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->customerName }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -75,7 +77,7 @@
                                 <div class="form-group row" style="margin-bottom: 0px;">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Receivable As Of:</label>
                                     <div class="col-sm-6">
-                                        <input type="date" name="" class="form-control form-control-sm">
+                                        <input type="date" name="invDate" id="invDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
                                     </div>
                                 </div>
                             </div>
@@ -96,78 +98,53 @@
                             <div class="col-sm-12">
                                 <table class="table table-sm table-bordered">
                                     <thead class="bg-info text-white">
-                                    <tr>
-                                        <th style="text-align: center; width: 12%;">Invoice ID#</th>
-                                        <th style="text-align: center; width: 12%;">Invoice Date</th>
-                                        <th style="text-align: center; width: 16%;">Total Due</th>
-                                        <th style="text-align: center; width: 12%;">0-30 Days</th>
-                                        <th style="text-align: center; width: 12%;">31-60 Days</th>
-                                        <th style="text-align: center; width: 12%;">61-90 Days</th>
-                                        <th style="text-align: center; width: 12%;">91-120 Days</th>
-                                        <th style="text-align: center; width: 12%;">120+ Days</th>
-                                    </tr>
+                                        <tr>
+                                            <th style="text-align: center; width: 12%;">Invoice ID#</th>
+                                            <th style="text-align: center; width: 12%;">Invoice Date</th>
+                                            <th style="text-align: center; width: 16%;">Total Due</th>
+                                            <th style="text-align: center; width: 12%;">0-30 Days</th>
+                                            <th style="text-align: center; width: 12%;">31-60 Days</th>
+                                            <th style="text-align: center; width: 12%;">61-90 Days</th>
+                                            <th style="text-align: center; width: 12%;">91-120 Days</th>
+                                            <th style="text-align: center; width: 12%;">120+ Days</th>
+                                        </tr>
                                     </thead>
 
                                     <tbody class="sales_sm_field" id="dataViews">
-
-                                    <tr>
-                                        <td>01-115874</td>
-                                        <td>28/09/2022</td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>01-115874</td>
-                                        <td>28/09/2022</td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>01-115874</td>
-                                        <td>28/09/2022</td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                    </tr>
+                                        <tr>
+                                            <td>01-115874</td>
+                                            <td>28/09/2022</td>
+                                            <td class="text-right"><span class="sw_text">152222.00</span></td>
+                                            <td class="text-right"><span class="sw_text">0.00</span></td>
+                                            <td class="text-right"><span class="sw_text">0.00</span></td>
+                                            <td class="text-right"><span class="sw_text">0.00</span></td>
+                                            <td class="text-right"><span class="sw_text">0.00</span></td>
+                                            <td class="text-right"><span class="sw_text">152222.00</span></td>
+                                        </tr>
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th class="text-right" colspan="2">Total</th>
-                                        <th class="text-right"><span class="sw_text">152222.00</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00</span></th>
-                                        <th class="text-right"><span class="sw_text">152222.00</span></th>
-                                    </tr>
-
-                                    <tr>
-                                        <th class="text-right" colspan="7">Grand Total</th>
-                                        <th class="text-right"><span class="sw_text">258745555.00</span></th>
-                                    </tr>
-
-                                    <tr>
-                                        <th class="text-right" colspan="2">Ageing Percent</th>
-                                        <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                        <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                        <th class="text-right"><span class="sw_text">100.00%</span></th>
-                                    </tr>
+                                    <tfoot id="footer">
+                                        <tr>
+                                            <th class="text-right" colspan="2">Total</th>
+                                            <th class="text-right"><span class="sw_text">152222.00</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00</span></th>
+                                            <th class="text-right"><span class="sw_text">152222.00</span></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right" colspan="7">Grand Total</th>
+                                            <th class="text-right"><span class="sw_text">258745555.00</span></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right" colspan="2">Ageing Percent</th>
+                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
+                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
+                                            <th class="text-right"><span class="sw_text">100.00%</span></th>
+                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -185,5 +162,39 @@
 
     <script>
         $('.select2').select2();
+
+        $(document).ready(function() {
+            var _token = $('input[name="_token"]').val();
+            var customerId = 0, invDate = 0;
+
+            $('#customerId').change(function () {
+                customerId = $(this).val();
+                invDate = $('#invDate').val();
+                $.ajax({
+                    url: "{{ route('search.ageingDetail') }}",
+                    method: "POST",
+                    data: {customerId: customerId, invDate:invDate, _token: _token},
+                    success: function (result) {
+                        // console.log(result);
+                        $('#dataViews').html(result.header)
+                        $('#footer').html(result.footer)
+                    }
+                })
+            })
+
+            $('#invDate').change(function () {
+                customerId = $('#customerId').val();
+                invDate = $(this).val();
+                $.ajax({
+                    url: "{{ route('search.ageingDetail') }}",
+                    method: "POST",
+                    data: {customerId: customerId, invDate:invDate, _token: _token},
+                    success: function (result) {
+                        $('#dataViews').html(result.header)
+                        $('#footer').html(result.footer)
+                    }
+                })
+            })
+        });
     </script>
 @endsection
