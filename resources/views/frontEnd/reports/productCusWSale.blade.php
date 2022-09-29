@@ -87,9 +87,9 @@
                             </div>
 
                             <div class="col-md-4" id="payHistoryUrl">
-                                <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-download fa-sm text-white-50"></i> Show
-                                </a>
+{{--                                <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">--}}
+{{--                                    <i class="fas fa-download fa-sm text-white-50"></i> Show--}}
+{{--                                </a>--}}
 
                                 <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
                                     <i class="fas fa-file-pdf fa-sm text-white-50"></i> PDF Report

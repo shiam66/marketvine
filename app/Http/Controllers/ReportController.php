@@ -542,11 +542,11 @@ class ReportController extends Controller
             ->select(DB::raw('YEAR(invoiceDate) as salesYear'))
             ->get();
 
-        $product= DB::select("SELECT p.id,p.productName FROM sales_details s LEFT JOIN products p ON p.id=s.itemId GROUP BY p.id");
+        $product = DB::select("SELECT p.id,p.productName FROM sales_details s LEFT JOIN products p ON p.id=s.itemId GROUP BY p.id");
 
         return view('frontEnd.reports.productCusWSale', [
             'salesYears' => $salesYears,
-            'product'=>$product
+            'product' => $product
         ]);
     }
 
@@ -556,12 +556,12 @@ class ReportController extends Controller
         $sYear = $request->get('sYear');
         $sumProQty = 0;
         $sumMonth[] = 0;
-        $header="";
-        $footer="";
+        $header = "";
+        $footer = "";
 
         $customers = DB::select("SELECT c.id, c.customerName, SUM(qty) as sumProQty, p.sellingUnit FROM sales_details s LEFT JOIN customers c ON c.id=s.customerId LEFT JOIN products p ON p.id=s.itemId WHERE itemId='$productId' AND YEAR(invoiceDate)='$sYear' GROUP BY c.id, c.customerName, p.sellingUnit");
 
-        if ($customers!=null) {
+        if ($customers != null) {
             foreach ($customers as $customer) {
                 $customerName = $customer->customerName;
                 $sumProQty = $sumProQty + $customer->sumProQty;
@@ -611,93 +611,158 @@ class ReportController extends Controller
 
     public function ageingSummery()
     {
-        return view('frontEnd.reports.ageingSummery');
+        $to = Carbon::parse(date('Y-m-d', strtotime(now(date_default_timezone_get()))));
+        $dues = array();
+        $sumTotal = null;
+        $sum30 = null;
+        $sum60 = null;
+        $sum90 = null;
+        $sum120 = null;
+        $sum121 = null;
+        $customers = DB::select("SELECT c.id, c.customerName, SUM(balanceDue) AS sumDues FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.paymentStatus='0' GROUP BY s.customerId");
+        if ($customers != null) {
+            foreach ($customers as $customer) {
+                $customerName = $customer->customerName;
+                $sumDues = $customer->sumDues;
+                $sumTotal = $sumTotal + $sumDues;
+                $value30 = null;
+                $value60 = null;
+                $value90 = null;
+                $value120 = null;
+                $value121 = null;
+                $salesDue = DB::select("SELECT invoiceDate, balanceDue FROM sales WHERE customerId='$customer->id' AND paymentStatus='0'");
+                foreach ($salesDue as $due) {
+                    $from = Carbon::parse($due->invoiceDate);
+                    $days = $to->diffInDays($from);
+                    if ($days <= 30) {
+                        $value30 = $value30 + $due->balanceDue;
+                        $sum30 = $sum30 + $due->balanceDue;
+                    } elseif ($days <= 60) {
+                        $value60 = $value60 + $due->balanceDue;
+                        $sum60 = $sum60 + $due->balanceDue;
+                    } elseif ($days <= 90) {
+                        $value90 = $value90 + $due->balanceDue;
+                        $sum90 = $sum90 + $due->balanceDue;
+                    } elseif ($days <= 120) {
+                        $value120 = $value120 + $due->balanceDue;
+                        $sum120 = $sum120 + $due->balanceDue;
+                    } elseif ($days > 120) {
+                        $value121 = $value121 + $due->balanceDue;
+                        $sum121 = $sum121 + $due->balanceDue;
+                    }
+                }
+                $dues[] = array(
+                    $customerName,
+                    $sumDues,
+                    $value30,
+                    $value60,
+                    $value90,
+                    $value120,
+                    $value121
+                );
+            }
+        }
+        return view('frontEnd.reports.ageingSummery', [
+            'dues' => $dues,
+            'sumTotal' => $sumTotal,
+            'sum30' => $sum30,
+            'sum60' => $sum60,
+            'sum90' => $sum90,
+            'sum120' => $sum120,
+            'sum121' => $sum121
+        ]);
     }
 
     public function ageingDetails()
     {
         $customers = Customer::all();
         return view('frontEnd.reports.ageingDetails', [
-            'customers'=>$customers
+            'customers' => $customers
         ]);
     }
 
-    public function ageingDetail(Request $request){
+    public function ageingDetail(Request $request)
+    {
         $customerId = $request->get('customerId');
         $to = Carbon::parse($request->get('invDate'));
-        $header="";
-        $footer="";
+        $sumTotalDues = 0;
+        $sumTotal30 = 0;
+        $sumTotal60 = 0;
+        $sumTotal90 = 0;
+        $sumTotal120 = 0;
+        $sumTotal121 = 0;
+        $header = "";
+        $footer = "";
 
-        $salesDue=DB::select("SELECT invoice, invoiceDate, balanceDue FROM sales WHERE customerId='$customerId' AND paymentStatus='0'");
-//        $header= array_sum($salesDue[]->balanceDue);
-//        return $header;
-
-        if ($salesDue!=null) {
+        $salesDue = DB::select("SELECT invoice, invoiceDate, balanceDue FROM sales WHERE customerId='$customerId' AND paymentStatus='0'");
+        if ($salesDue != null) {
             foreach ($salesDue as $due) {
+                $sumTotalDues = $sumTotalDues + $due->balanceDue;
                 $from = Carbon::parse($due->invoiceDate);
                 $days = $to->diffInDays($from);
-                $header .='
+                $header .= '
                     <tr>
-                        <td>'. $due->invoice .'</td>
-                        <td>'. $due->invoiceDate .'</td>
-                        <td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>
+                        <td>' . $due->invoice . '</td>
+                        <td>' . $due->invoiceDate . '</td>
+                        <td class="text-right"><span class="sw_text">' . $due->balanceDue . '</span></td>
                 ';
-                if ($days<=30){
-                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
-                }else{
-                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                if ($days <= 30) {
+                    $header .= '<td class="text-right"><span class="sw_text">' . $due->balanceDue . '</span></td>';
+                    $sumTotal30 = $sumTotal30 + $due->balanceDue;
+                } else {
+                    $header .= '<td class="text-right"><span class="sw_text"></span></td>';
                 }
-                if ($days>30 and $days<=60){
-                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
-                }else{
-                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                if ($days > 30 and $days <= 60) {
+                    $header .= '<td class="text-right"><span class="sw_text">' . $due->balanceDue . '</span></td>';
+                    $sumTotal60 = $sumTotal60 + $due->balanceDue;
+                } else {
+                    $header .= '<td class="text-right"><span class="sw_text"></span></td>';
                 }
-                if ($days>60 and $days<=90){
-                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
-                }else{
-                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                if ($days > 60 and $days <= 90) {
+                    $header .= '<td class="text-right"><span class="sw_text">' . $due->balanceDue . '</span></td>';
+                    $sumTotal90 = $sumTotal90 + $due->balanceDue;
+                } else {
+                    $header .= '<td class="text-right"><span class="sw_text"></span></td>';
                 }
-                if ($days>90 and $days<=120){
-                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
-                }else{
-                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                if ($days > 90 and $days <= 120) {
+                    $header .= '<td class="text-right"><span class="sw_text">' . $due->balanceDue . '</span></td>';
+                    $sumTotal120 = $sumTotal120 + $due->balanceDue;
+                } else {
+                    $header .= '<td class="text-right"><span class="sw_text"></span></td>';
                 }
-                if ($days>120){
-                    $header .='<td class="text-right"><span class="sw_text">'. $due->balanceDue .'</span></td>';
-                }else{
-                    $header .='<td class="text-right"><span class="sw_text"></span></td>';
+                if ($days > 120) {
+                    $header .= '<td class="text-right"><span class="sw_text">' . $due->balanceDue . '</span></td>';
+                    $sumTotal121 = $sumTotal121 + $due->balanceDue;
+                } else {
+                    $header .= '<td class="text-right"><span class="sw_text"></span></td>';
                 }
-                $header .='
+                $header .= '
                     </tr>
                 ';
             }
-            $footer .='
+            $footer .= '
                 <tr>
-                    <th class="text-right" colspan="2">Total</th>
-                    <th class="text-right"><span class="sw_text">'. 0 .'</span></th>
-                    <th class="text-right"><span class="sw_text">0.00</span></th>
-                    <th class="text-right"><span class="sw_text">0.00</span></th>
-                    <th class="text-right"><span class="sw_text">0.00</span></th>
-                    <th class="text-right"><span class="sw_text">0.00</span></th>
-                    <th class="text-right"><span class="sw_text">152222.00</span></th>
-                </tr>
-                <tr>
-                    <th class="text-right" colspan="7">Grand Total</th>
-                    <th class="text-right"><span class="sw_text">258745555.00</span></th>
+                    <th class="text-right" colspan="2">Total :</th>
+                    <th class="text-right"><span class="sw_text">' . $sumTotalDues . '</span></th>
+                    <th class="text-right"><span class="sw_text">' . $sumTotal30 . '</span></th>
+                    <th class="text-right"><span class="sw_text">' . $sumTotal60 . '</span></th>
+                    <th class="text-right"><span class="sw_text">' . $sumTotal90 . '</span></th>
+                    <th class="text-right"><span class="sw_text">' . $sumTotal120 . '</span></th>
+                    <th class="text-right"><span class="sw_text">' . $sumTotal121 . '</span></th>
                 </tr>
                 <tr>
                     <th class="text-right" colspan="2">Ageing Percent</th>
-                    <th class="text-right"><span class="sw_text">0.00%</span></th>
-                    <th class="text-right"><span class="sw_text">0.00%</span></th>
-                    <th class="text-right"><span class="sw_text">0.00%</span></th>
-                    <th class="text-right"><span class="sw_text">0.00%</span></th>
-                    <th class="text-right"><span class="sw_text">0.00%</span></th>
-                    <th class="text-right"><span class="sw_text">100.00%</span></th>
+                    <th class="text-right"><span class="sw_text"></span></th>
+                    <th class="text-right"><span class="sw_text">' . round($sumTotal30 / $sumTotalDues * 100) . '%</span></th>
+                    <th class="text-right"><span class="sw_text">' . round($sumTotal60 / $sumTotalDues * 100) . '%</span></th>
+                    <th class="text-right"><span class="sw_text">' . round($sumTotal90 / $sumTotalDues * 100) . '%</span></th>
+                    <th class="text-right"><span class="sw_text">' . round($sumTotal120 / $sumTotalDues * 100) . '%</span></th>
+                    <th class="text-right"><span class="sw_text">' . round($sumTotal121 / $sumTotalDues * 100) . '%</span></th>
                 </tr>
             ';
         }
-        $output['header']=$header;
-        $output['footer']=$footer;
+        $output['header'] = $header;
+        $output['footer'] = $footer;
         return $output;
     }
 }

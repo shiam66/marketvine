@@ -63,16 +63,12 @@
                                 <div class="form-group row" style="margin-bottom: 0px;">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Receivable As Of:</label>
                                     <div class="col-sm-6">
-                                        <input type="date" name="" class="form-control form-control-sm">
+                                        <input type="date" name="invDate" id="invDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-4" id="payHistoryUrl">
-                                <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-eye fa-sm text-white-50"></i> Display
-                                </a>
-
                                 <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
                                     <i class="fas fa-file-pdf fa-sm text-white-50"></i> PDF Report
                                 </a>
@@ -85,67 +81,48 @@
                                 <table class="table table-sm table-bordered">
                                     <thead class="bg-info text-white">
                                     <tr>
-                                        <th style="text-align: center; width: 20%;">Customer Name</th>
-                                        <th style="text-align: center; width: 10%;">Total Due</th>
-                                        <th style="text-align: center; width: 14%;">0-30 Days</th>
-                                        <th style="text-align: center; width: 14%;">31-60 Days</th>
-                                        <th style="text-align: center; width: 14%;">61-90 Days</th>
-                                        <th style="text-align: center; width: 14%;">91-120 Days</th>
-                                        <th style="text-align: center; width: 14%;">120+ Days</th>
+                                        <th style="text-align: center; width: 28%;">Customer Name</th>
+                                        <th style="text-align: center; width: 12%;">Total Due</th>
+                                        <th style="text-align: center; width: 12%;">0-30 Days</th>
+                                        <th style="text-align: center; width: 12%;">31-60 Days</th>
+                                        <th style="text-align: center; width: 12%;">61-90 Days</th>
+                                        <th style="text-align: center; width: 12%;">91-120 Days</th>
+                                        <th style="text-align: center; width: 12%;">120+ Days</th>
                                     </tr>
                                     </thead>
 
                                     <tbody class="sales_sm_field" id="dataViews">
 
-                                    <tr>
-                                        <td><b>AT. Haque</b></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><b>Abc customer Name</b></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><b>AT. Abc Name</b></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">0.00</span></td>
-                                        <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                    </tr>
+                                    @foreach($dues as $due)
+                                        <tr>
+                                            <td><b>{{ $due[0] }}</b></td>
+                                            <td class="text-right"><span class="sw_text">{{ $due[1] }}</span></td>
+                                            <td class="text-right"><span class="sw_text">{{ $due[2] }}</span></td>
+                                            <td class="text-right"><span class="sw_text">{{ $due[3] }}</span></td>
+                                            <td class="text-right"><span class="sw_text">{{ $due[4] }}</span></td>
+                                            <td class="text-right"><span class="sw_text">{{ $due[5] }}</span></td>
+                                            <td class="text-right"><span class="sw_text">{{ $due[6] }}</span></td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
-                                    <tfoot>
+                                    <tfoot id="footer">
                                         <tr>
                                             <th class="text-right">Total</th>
-                                            <th class="text-right"><span class="sw_text">152222.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">152222.00</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotal }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sum30 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sum60 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sum90 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sum120 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sum121 }}</span></th>
                                         </tr>
-
                                         <tr>
                                             <th class="text-right"><b>Ageing Percent</b></th>
                                             <th class="text-right"><span class="sw_text"></span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">100.0%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sum30 / $sumTotal * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sum60 / $sumTotal * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sum90 / $sumTotal * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sum120 / $sumTotal * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sum121 / $sumTotal * 100) }}%</span></th>
                                         </tr>
                                     </tfoot>
                                 </table>

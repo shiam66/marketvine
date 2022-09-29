@@ -83,9 +83,9 @@
                             </div>
 
                             <div class="col-md-4" id="payHistoryUrl">
-                                <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-eye fa-sm text-white-50"></i> Display
-                                </a>
+{{--                                <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">--}}
+{{--                                    <i class="fas fa-eye fa-sm text-white-50"></i> Display--}}
+{{--                                </a>--}}
 
                                 <a href="{{ url('/payments-history/0') }}" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
                                     <i class="fas fa-file-pdf fa-sm text-white-50"></i> PDF Report
@@ -111,40 +111,8 @@
                                     </thead>
 
                                     <tbody class="sales_sm_field" id="dataViews">
-                                        <tr>
-                                            <td>01-115874</td>
-                                            <td>28/09/2022</td>
-                                            <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                            <td class="text-right"><span class="sw_text">0.00</span></td>
-                                            <td class="text-right"><span class="sw_text">0.00</span></td>
-                                            <td class="text-right"><span class="sw_text">0.00</span></td>
-                                            <td class="text-right"><span class="sw_text">0.00</span></td>
-                                            <td class="text-right"><span class="sw_text">152222.00</span></td>
-                                        </tr>
                                     </tbody>
                                     <tfoot id="footer">
-                                        <tr>
-                                            <th class="text-right" colspan="2">Total</th>
-                                            <th class="text-right"><span class="sw_text">152222.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00</span></th>
-                                            <th class="text-right"><span class="sw_text">152222.00</span></th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-right" colspan="7">Grand Total</th>
-                                            <th class="text-right"><span class="sw_text">258745555.00</span></th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-right" colspan="2">Ageing Percent</th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">0.00%</span></th>
-                                            <th class="text-right"><span class="sw_text">100.00%</span></th>
-                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>
