@@ -1,5 +1,7 @@
 @extends('frontEnd.master')
 
+
+
 @section('title') Ageing Details @endsection
 
 
@@ -64,10 +66,16 @@
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Customer:</label>
                                     <div class="col-sm-8">
                                         <select class="form-control form-control-sm select2" name="customerId" id="customerId">
-                                            <option value="">Select Customer</option>
-                                            @foreach($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->customerName }}</option>
-                                            @endforeach
+                                            @if ($salesDue != null)
+                                                @foreach($customers as $customer)
+                                                    <option value="<?php echo $customer->id ?>" <?php if($customer->id==$salesDue[0]->customerId) { echo "selected"; }  ?>><?php echo $customer->customerName ?></option>
+                                                @endforeach
+                                            @else
+                                                <option value="">Select Customer</option>
+                                                @foreach($customers as $customer)
+                                                    <option value="<?php echo $customer->id ?>"><?php echo $customer->customerName ?></option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                     </div>
                                 </div>
@@ -111,8 +119,80 @@
                                     </thead>
 
                                     <tbody class="sales_sm_field" id="dataViews">
+                                    @php
+                                        $sumTotalDues = null;
+                                        $sumTotal30 = null;
+                                        $sumTotal60 = null;
+                                        $sumTotal90 = null;
+                                        $sumTotal120 = null;
+                                        $sumTotal121 = null;
+                                    @endphp
+                                    @if ($salesDue != null)
+                                        @foreach ($salesDue as $due)
+                                            @php
+                                            $sumTotalDues = $sumTotalDues + $due->balanceDue;
+                                            $from =$due->invoiceDate;
+                                            $days = (\Carbon\Carbon::now()->diff(\Carbon\Carbon::parse($from)))->format('%a');
+                                            @endphp
+                                                <tr>
+                                                    <td>{{ $due->invoice }}</td>
+                                                    <td>{{ $due->invoiceDate }}</td>
+                                                    <td class="text-right"><span class="sw_text">{{ $due->balanceDue }}</span></td>
+                                                    @if ($days <= 30)
+                                                        <td class="text-right"><span class="sw_text">{{ $due->balanceDue }}</span></td>
+                                                         @php $sumTotal30 = $sumTotal30 + $due->balanceDue; @endphp
+                                                    @else
+                                                        <td class="text-right"><span class="sw_text"></span></td>
+                                                    @endif
+                                                    @if ($days > 30 and $days <= 60)
+                                                        <td class="text-right"><span class="sw_text">{{ $due->balanceDue }}</span></td>
+                                                        @php $sumTotal60 = $sumTotal60 + $due->balanceDue; @endphp
+                                                    @else
+                                                        <td class="text-right"><span class="sw_text"></span></td>
+                                                    @endif
+                                                    @if ($days > 60 and $days <= 90)
+                                                        <td class="text-right"><span class="sw_text">{{ $due->balanceDue }}</span></td>
+                                                        @php $sumTotal90 = $sumTotal90 + $due->balanceDue; @endphp
+                                                    @else
+                                                        <td class="text-right"><span class="sw_text"></span></td>
+                                                    @endif
+                                                    @if ($days > 90 and $days <= 120)
+                                                        <td class="text-right"><span class="sw_text">{{ $due->balanceDue }}</span></td>
+                                                        @php $sumTotal120 = $sumTotal120 + $due->balanceDue; @endphp
+                                                    @else
+                                                        <td class="text-right"><span class="sw_text"></span></td>
+                                                    @endif
+                                                    @if ($days > 120)
+                                                        <td class="text-right"><span class="sw_text">{{ $due->balanceDue }}</span></td>
+                                                        @php $sumTotal121 = $sumTotal121 + $due->balanceDue; @endphp
+                                                    @else
+                                                        <td class="text-right"><span class="sw_text"></span></td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                     <tfoot id="footer">
+                                    @if ($salesDue != null)
+                                        <tr>
+                                            <th class="text-right" colspan="2">Total :</th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotalDues }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotal30 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotal60 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotal90 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotal120 }}</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ $sumTotal121 }}</span></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-right" colspan="2">Ageing Percent</th>
+                                            <th class="text-right"><span class="sw_text"></span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sumTotal30 / $sumTotalDues * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sumTotal60 / $sumTotalDues * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sumTotal90 / $sumTotalDues * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sumTotal120 / $sumTotalDues * 100) }}%</span></th>
+                                            <th class="text-right"><span class="sw_text">{{ round($sumTotal121 / $sumTotalDues * 100) }}%</span></th>
+                                        </tr>
+                                    @endif
                                     </tfoot>
                                 </table>
                             </div>

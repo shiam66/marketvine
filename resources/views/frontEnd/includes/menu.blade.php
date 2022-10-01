@@ -73,23 +73,24 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('/sales') }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+           aria-expanded="true" aria-controls="collapseOne">
             <i class="fab fa-fw fa-product-hunt"></i>
             <span>Sales</span>
         </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('/receive-payments') }}">
-            <i class="fab fa-fw fa-product-hunt"></i>
-            <span>Receive Payment</span>
-        </a>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/sales') }}">Enter Sales</a>
+                <a class="collapse-item" href="#">Sales Register</a>
+                <a class="collapse-item" href="{{ url('/receive-payments') }}">Receive Payment</a>
+            </div>
+        </div>
     </li>
 
 {{--    <li class="nav-item">--}}
-{{--        <a class="nav-link" href="{{ url('/sales-table-analysis') }}">--}}
+{{--        <a class="nav-link" href="{{ url('/receive-payments') }}">--}}
 {{--            <i class="fab fa-fw fa-product-hunt"></i>--}}
-{{--            <span>Sales Table Analysis</span>--}}
+{{--            <span>Receive Payment</span>--}}
 {{--        </a>--}}
 {{--    </li>--}}
 
@@ -113,7 +114,7 @@
                 <a class="collapse-item" href="{{ url('/sales-table-analysis') }}">Sales Analysis</a>
                 <a class="collapse-item" href="{{ url('/productCusWSale') }}">Sales-Prd Vs Customer(Vol)</a>
                 <a class="collapse-item" href="{{ url('/ageingSummery') }}">Ageing Summery</a>
-                <a class="collapse-item" href="{{ url('/ageingDetails') }}">Ageing Details</a>
+                <a class="collapse-item" href="{{ url('/ageingDetails/0') }}">Ageing Details</a>
             </div>
         </div>
     </li>

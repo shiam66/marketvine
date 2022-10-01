@@ -619,9 +619,11 @@ class ReportController extends Controller
         $sum90 = null;
         $sum120 = null;
         $sum121 = null;
+        $customerId=null;
         $customers = DB::select("SELECT c.id, c.customerName, SUM(balanceDue) AS sumDues FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.paymentStatus='0' GROUP BY s.customerId");
         if ($customers != null) {
             foreach ($customers as $customer) {
+                $customerId = $customer->id;
                 $customerName = $customer->customerName;
                 $sumDues = $customer->sumDues;
                 $sumTotal = $sumTotal + $sumDues;
@@ -658,7 +660,8 @@ class ReportController extends Controller
                     $value60,
                     $value90,
                     $value120,
-                    $value121
+                    $value121,
+                    $customerId
                 );
             }
         }
@@ -673,11 +676,14 @@ class ReportController extends Controller
         ]);
     }
 
-    public function ageingDetails()
+    public function ageingDetails($id)
     {
         $customers = Customer::all();
+        $salesDue = DB::select("SELECT customerId, invoice, invoiceDate, balanceDue FROM sales WHERE customerId='$id' AND paymentStatus='0'");
+
         return view('frontEnd.reports.ageingDetails', [
-            'customers' => $customers
+            'customers' => $customers,
+            'salesDue'=>$salesDue
         ]);
     }
 
@@ -685,12 +691,12 @@ class ReportController extends Controller
     {
         $customerId = $request->get('customerId');
         $to = Carbon::parse($request->get('invDate'));
-        $sumTotalDues = 0;
-        $sumTotal30 = 0;
-        $sumTotal60 = 0;
-        $sumTotal90 = 0;
-        $sumTotal120 = 0;
-        $sumTotal121 = 0;
+        $sumTotalDues = null;
+        $sumTotal30 = null;
+        $sumTotal60 = null;
+        $sumTotal90 = null;
+        $sumTotal120 = null;
+        $sumTotal121 = null;
         $header = "";
         $footer = "";
 

@@ -81,13 +81,14 @@
                                 <table class="table table-sm table-bordered">
                                     <thead class="bg-info text-white">
                                     <tr>
-                                        <th style="text-align: center; width: 28%;">Customer Name</th>
-                                        <th style="text-align: center; width: 12%;">Total Due</th>
-                                        <th style="text-align: center; width: 12%;">0-30 Days</th>
-                                        <th style="text-align: center; width: 12%;">31-60 Days</th>
-                                        <th style="text-align: center; width: 12%;">61-90 Days</th>
-                                        <th style="text-align: center; width: 12%;">91-120 Days</th>
-                                        <th style="text-align: center; width: 12%;">120+ Days</th>
+                                        <th style="text-align: center; width: 4%;"></th>
+                                        <th style="text-align: center; width: 30%;">Customer Name</th>
+                                        <th style="text-align: center; width: 11%;">Total Due</th>
+                                        <th style="text-align: center; width: 11%;">0-30 Days</th>
+                                        <th style="text-align: center; width: 11%;">31-60 Days</th>
+                                        <th style="text-align: center; width: 11%;">61-90 Days</th>
+                                        <th style="text-align: center; width: 11%;">91-120 Days</th>
+                                        <th style="text-align: center; width: 11%;">120+ Days</th>
                                     </tr>
                                     </thead>
 
@@ -95,6 +96,11 @@
 
                                     @foreach($dues as $due)
                                         <tr>
+                                            <td style="text-align: center">
+                                                <a href="{{ url('/ageingDetails/'.$due[7]) }}" class="d-none d-sm-inline-block btn-sm btn-primary shadow-sm">
+                                                    <i class="fas fa-eye fa-sm text-white-50"></i>
+                                                </a>
+                                            </td>
                                             <td><b>{{ $due[0] }}</b></td>
                                             <td class="text-right"><span class="sw_text">{{ $due[1] }}</span></td>
                                             <td class="text-right"><span class="sw_text">{{ $due[2] }}</span></td>
@@ -107,7 +113,8 @@
                                     </tbody>
                                     <tfoot id="footer">
                                         <tr>
-                                            <th class="text-right">Total</th>
+                                            <th class="text-right"></th>
+                                            <th class="text-right">Total :</th>
                                             <th class="text-right"><span class="sw_text">{{ $sumTotal }}</span></th>
                                             <th class="text-right"><span class="sw_text">{{ $sum30 }}</span></th>
                                             <th class="text-right"><span class="sw_text">{{ $sum60 }}</span></th>
@@ -116,6 +123,7 @@
                                             <th class="text-right"><span class="sw_text">{{ $sum121 }}</span></th>
                                         </tr>
                                         <tr>
+                                            <th class="text-right"></th>
                                             <th class="text-right"><b>Ageing Percent</b></th>
                                             <th class="text-right"><span class="sw_text"></span></th>
                                             <th class="text-right"><span class="sw_text">{{ round($sum30 / $sumTotal * 100) }}%</span></th>
