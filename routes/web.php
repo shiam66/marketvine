@@ -35,12 +35,16 @@ Route::post('/salesBudgetViewDataByAjax', 'SalesBudgetController@budgetByYear')-
 
 // For Sales Controller List
 Route::get('/sales', 'SalesController@sales')->middleware('auth');
+Route::get('/sales-edit/{id}', 'SalesController@salesEdit')->middleware('auth');
 Route::post('/sales-record', 'SalesController@salesRecordInsert')->middleware('auth');
+Route::post('/sales-record-edit', 'SalesController@salesRecordEdit')->middleware('auth');
+Route::get('/sales-register', 'SalesController@salesRegister')->middleware('auth');
 Route::post('/customerBillByAjax', 'SalesController@customerBillTo')->name('search.customerBillTo')->middleware('auth');
 Route::post('/customerShipByAjax', 'SalesController@customerShipTo')->name('search.customerShipTo')->middleware('auth');
 Route::post('/itemNameByAjax', 'SalesController@itemName')->name('search.itemName')->middleware('auth');
 Route::post('/itemCodeByAjax', 'SalesController@itemCode')->name('search.itemCode')->middleware('auth');
 Route::post('/othersByAjax', 'SalesController@others')->name('search.others')->middleware('auth');
+Route::post('/salesRegByAjax', 'SalesController@salesReg')->name('search.salesReg')->middleware('auth');
 
 // For Report Controller List
 Route::get('/payments-history/{id}', 'ReportController@paymentsHistory')->middleware('auth');

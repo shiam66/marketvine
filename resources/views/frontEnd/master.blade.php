@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}" />
 
     <title>@yield('title')</title>
 
@@ -30,62 +31,62 @@
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        @include('frontEnd.includes.menu')
+<!-- Page Wrapper -->
+<div id="wrapper">
+@include('frontEnd.includes.menu')
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                @include('frontEnd.includes.topBar')
+<!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+        @include('frontEnd.includes.topBar')
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    @yield('mainContent')
-                </div>
-                <!-- /.container-fluid -->
+        <!-- Begin Page Content -->
+            <div class="container-fluid">
+                @yield('mainContent')
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Marketvine Ltd. 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <!-- /.container-fluid -->
         </div>
-        <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- End of Main Content -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Marketvine Ltd. 2022</span>
                 </div>
             </div>
+        </footer>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
         </div>
     </div>
+</div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="{{asset('frontEnd/assets/vendor/jquery/jquery.min.js')}}"></script>
@@ -107,51 +108,47 @@
 <!-- Page level plugins -->
 <script src="{{asset('frontEnd/assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('frontEnd/assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('frontEnd/assets/vendor/sweetalert2/sweetalert2.min.js')}}"></script>
+<script src="{{asset('frontEnd/assets/vendor/sweetalert2/sweetalert2.min.js')}}"></script>
 
 <!-- Page level custom scripts -->
 <script src="{{asset('frontEnd/assets/js/demo/datatables-demo.js')}}"></script>
 
 @yield('script')
 
-    <script>
-        @if(session('message'))
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: "Success",
-            text: "{{ session('message') }}",
-            showConfirmButton: false,
-            timer: "1500",
-        });
-        @endif
+<script>
+    @if(session('message'))
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: "Success",
+        text: "{{ session('message') }}",
+        showConfirmButton: false,
+        timer: "1500",
+    });
+    @endif
 
-        @if(session('updateMessage'))
-        Swal.fire({
-            position: 'top-end',
-            title: "Updated !",
-            text: "{{ session('updateMessage') }}",
-            icon: "info",
-            timer: "1500",
-            showConfirmButton: false,
-        });
-        @endif
+    @if(session('updateMessage'))
+    Swal.fire({
+        position: 'top-end',
+        title: "Updated !",
+        text: "{{ session('updateMessage') }}",
+        icon: "info",
+        timer: "1500",
+        showConfirmButton: false,
+    });
+    @endif
 
-        @if(session('deleteMessage'))
-        Swal.fire({
-            position: 'top-end',
-            title: "Deleted !",
-            text: "{{ session('deleteMessage') }}",
-            icon: "error",
-            timer: "1500",
-            showConfirmButton: false,
-        });
-        @endif
+    @if(session('deleteMessage'))
+    Swal.fire({
+        position: 'top-end',
+        title: "Deleted !",
+        text: "{{ session('deleteMessage') }}",
+        icon: "error",
+        timer: "1500",
+        showConfirmButton: false,
+    });
+    @endif
 
-    </script>
+</script>
 </body>
 </html>
-
-
-
-

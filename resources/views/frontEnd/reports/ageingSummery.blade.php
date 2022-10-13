@@ -97,7 +97,7 @@
                                     @foreach($dues as $due)
                                         <tr>
                                             <td style="text-align: center">
-                                                <a href="{{ url('/ageingDetails/'.$due[7]) }}" class="d-none d-sm-inline-block btn-sm btn-primary shadow-sm">
+                                                <a href="{{ url('/ageingDetails/'.$due[7]) }}" target="_blank" class="d-none d-sm-inline-block btn-sm btn-primary shadow-sm">
                                                     <i class="fas fa-eye fa-sm text-white-50"></i>
                                                 </a>
                                             </td>

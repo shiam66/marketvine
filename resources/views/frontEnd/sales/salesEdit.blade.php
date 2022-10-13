@@ -1,6 +1,6 @@
 @extends('frontEnd.master')
 
-@section('title') Sales @endsection
+@section('title') Sales Edit @endsection
 
 
 @section('css')
@@ -46,19 +46,19 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h4 mb-0 text-gray-800">Sales</h1>
+        <h1 class="h4 mb-0 text-gray-800">Sales Edit</h1>
     </div>
 
     <!-- Content Row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="card mb-4">
-                <form name="frmcontent" action="{{ url('/sales-record') }}" method="post" enctype="multipart/form-data">
+                <form name="frmcontent" action="{{ url('/sales-record-edit') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-header py-2">
                         <div class="row">
                             <div class="col-md-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Sales New Item</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Sales Edit Item</h6>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group row">
@@ -80,14 +80,13 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Invoice #:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="invoice" class="form-control form-control-sm">
-                                        <span class="text-danger">{{  $errors->has('invoice') ? $errors->first('invoice'): '' }}</span>
+                                        <input type="text" name="invoice" class="form-control form-control-sm" value="{{ $sales[0]->invoice }}" required>
                                     </div>
                                 </div>
                                 <div class="form-group row" style="margin-bottom: 0px;">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Date:</label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="invoiceDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime(now(date_default_timezone_get()))) }}">
+                                        <input type="date" name="invoiceDate" class="form-control form-control-sm" value="{{ date('Y-m-d', strtotime($sales[0]->invoiceDate)) }}">
                                     </div>
                                 </div>
                             </div>
@@ -97,20 +96,17 @@
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Customer:</label>
                                     <div class="col-sm-8">
                                         <select class="form-control form-control-sm" id="customerId" name="customerId">
-                                            <option value="option_select" disabled selected>Select Customer</option>
                                             @foreach($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->customerName }}</option>
+                                                <option value="{{ $customer->id }}" <?php if($customer->id==$sales[0]->customerId) { echo "selected"; }  ?>>{{ $customer->customerName }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger">{{  $errors->has('customerId') ? $errors->first('customerId'): '' }}</span>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-5 col-form-label col-form-label-sm text-right">Customer PO:</label>
                                     <div class="col-sm-7">
-                                        <input type="text" name="customerPo" class="form-control form-control-sm">
-                                        <span class="text-danger">{{  $errors->has('customerPo') ? $errors->first('customerPo'): '' }}</span>
+                                        <input type="text" name="customerPo" value="{{ $sales[0]->customerPo }}" class="form-control form-control-sm">
                                     </div>
                                 </div>
                             </div>
@@ -119,14 +115,14 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Bill to:</label>
                                     <div class="col-sm-8">
-                                        <textarea name="billTo" class="form-control form-control-sm" rows="1" readonly></textarea>
+                                        <textarea name="billTo" class="form-control form-control-sm" rows="1" readonly>{{ $sales[0]->billTo }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Bill Con.:</label>
                                     <div class="col-sm-8">
-                                        <textarea name="billToContact" class="form-control form-control-sm" rows="1" readonly></textarea>
+                                        <textarea name="billToContact" class="form-control form-control-sm" rows="1" readonly>{{ $sales[0]->contact1Name }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -135,14 +131,14 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Ship to:</label>
                                     <div class="col-sm-8">
-                                        <textarea name="shipTo" class="form-control form-control-sm" rows="1" readonly></textarea>
+                                        <textarea name="shipTo" class="form-control form-control-sm" rows="1" readonly>{{ $sales[0]->shipTo }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Ship Con.:</label>
                                     <div class="col-sm-8">
-                                        <textarea name="shipToContact" class="form-control form-control-sm" rows="1" readonly></textarea>
+                                        <textarea name="shipToContact" class="form-control form-control-sm" rows="1" readonly>{{ $sales[0]->contact2Name }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -162,9 +158,35 @@
                                         <th style="text-align: center; width: 15%;">Amount</th>
                                     </tr>
                                     </thead>
-
                                     <tbody class="sales_sm_field">
-                                    @for($i=1; $i<11;$i++)
+                                    @php $j=count($salesDetails); $i=0; @endphp
+                                    @foreach($salesDetails as $item1)
+                                        @php $i=$i+1; @endphp
+                                        <tr>
+                                            <td>
+                                                <select class="form-control form-control-sm select2" id="itemCode{{$i}}" name="itemCode{{$i}}">
+                                                    @foreach($product as $item)
+                                                        <option value="{{ $item->id }}" <?php if($item->id==$item1->id) { echo "selected"; } ?>>{{ $item->productNumber }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control form-control-sm select2" id="itemName{{$i}}" name="itemName{{$i}}">
+                                                    @foreach($product as $item)
+                                                        <option value="{{ $item->id }}" <?php if($item->id==$item1->id) { echo "selected"; } ?>>{{ $item->productName }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td><input type="number" step="0.01" value="{{ $item1->qty }}" id="qty{{$i}}" name="qty{{$i}}" class="form-control form-control-sm text-right"></td>
+                                            <td class="text-center"><span id="unit{{$i}}">{{ $item1->unit }}</span></td>
+                                            <td><input type="number" step="0.01" value="{{ $item1->unitPrice }}" id="unitPrice{{$i}}" name="unitPrice{{$i}}" class="form-control form-control-sm text-right"></td>
+                                            <td><input type="number" step="0.01" value="{{ $item1->discountPer }}" id="discount{{$i}}" name="discount{{$i}}" class="form-control form-control-sm text-right"></td>
+                                            <td><input type="text" value="{{ $item1->amount }}" id="totalAmount{{$i}}" name="totalAmount{{$i}}" class="form-control form-control-sm text-right" readonly></td>
+                                            <td><input type="hidden" value="{{ $item1->unit }}" id="units{{$i}}" name="units{{$i}}" class="form-control form-control-sm"></td>
+                                        </tr>
+                                    @endforeach
+
+                                    @for($i=$j+1; $i<11;$i++)
                                         <tr>
                                             <td>
                                                 <select class="form-control form-control-sm select2" id="itemCode{{$i}}" name="itemCode{{$i}}">
@@ -182,11 +204,11 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td><input type="number" step="0.01" id="qty{{$i}}" name="qty{{$i}}" class="form-control form-control-sm"></td>
-                                            <td><span id="unit{{$i}}"></span></td>
-                                            <td><input type="number" step="0.01" id="unitPrice{{$i}}" name="unitPrice{{$i}}" class="form-control form-control-sm"></td>
-                                            <td><input type="number" step="0.01" id="discount{{$i}}" name="discount{{$i}}" value="" class="form-control form-control-sm"></td>
-                                            <td><input type="text" id="totalAmount{{$i}}" name="totalAmount{{$i}}" class="form-control form-control-sm" readonly></td>
+                                            <td><input type="number" step="0.01" id="qty{{$i}}" name="qty{{$i}}" class="form-control form-control-sm text-right"></td>
+                                            <td class="text-center"><span id="unit{{$i}}"></span></td>
+                                            <td><input type="number" step="0.01" id="unitPrice{{$i}}" name="unitPrice{{$i}}" class="form-control form-control-sm text-right"></td>
+                                            <td><input type="number" step="0.01" id="discount{{$i}}" name="discount{{$i}}" class="form-control form-control-sm text-right"></td>
+                                            <td><input type="text" id="totalAmount{{$i}}" name="totalAmount{{$i}}" class="form-control form-control-sm text-right" readonly></td>
                                             <td><input type="hidden" id="units{{$i}}" name="units{{$i}}" class="form-control form-control-sm"></td>
                                         </tr>
                                     @endfor
@@ -200,7 +222,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label col-form-label-sm text-right">Notes:</label>
                                     <div class="col-sm-8">
-                                        <textarea name="notes" class="form-control form-control-sm" rows="2"></textarea>
+                                        <textarea name="notes" class="form-control form-control-sm" rows="2">{{ $sales[0]->notes }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +231,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Sales Amount:</label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="salesAmount" name="salesAmount" class="form-control form-control-sm" readonly>
+                                        <input type="text" value="{{ $sales[0]->salesAmount }}" id="salesAmount" name="salesAmount" class="form-control form-control-sm text-right" readonly>
                                         <span class="text-danger">{{  $errors->has('salesAmount') ? $errors->first('salesAmount'): '' }}</span>
                                     </div>
                                 </div>
@@ -217,28 +239,28 @@
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Vat in Total:</label>
                                     <div class="col-sm-6">
-                                        <input type="number" step="0.01" id="vat" name="vat" class="form-control form-control-sm">
+                                        <input type="number" step="0.01" value="{{ $sales[0]->vat }}" id="vat" name="vat" class="form-control form-control-sm text-right">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Others:</label>
                                     <div class="col-sm-6">
-                                        <input type="number" step="0.01" id="others" name="others" class="form-control form-control-sm">
+                                        <input type="number" step="0.01" value="{{ $sales[0]->others }}" id="others" name="others" class="form-control form-control-sm text-right">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Total Amount:</label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="totalAmount" name="totalAmount" class="form-control form-control-sm" readonly>
+                                        <input type="text" value="{{ $sales[0]->totalAmount }}" id="totalAmount" name="totalAmount" class="form-control form-control-sm text-right" readonly>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Advance:</label>
                                     <div class="col-sm-6">
-                                        <input type="number" step="0.01" id="advance" name="advance" class="form-control form-control-sm">
+                                        <input type="number" step="0.01" value="{{ $sales[0]->advance }}" id="advance" name="advance" class="form-control form-control-sm text-right">
                                     </div>
                                 </div>
 
@@ -246,19 +268,20 @@
                                     {{--                                    <label class="col-sm-5 col-form-label col-form-label-sm text-right">Payment Method</label>--}}
                                     <div class="col-sm-6 col-form-label col-form-label-sm text-right">
                                         <select class="form-control form-control-sm" name="payMethod">
-                                            <option value="2">Pay Method Bank</option>
-                                            <option value="1">Pay Method Cash</option>
+                                            <option value="2" <?php if($sales[0]->payMethod==2) { echo "selected"; } ?>>Pay Method Bank</option>
+                                            <option value="1" <?php if($sales[0]->payMethod==1) { echo "selected"; } ?>>Pay Method Cash</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" name="paymentMethod" class="form-control form-control-sm">
+                                        <input type="text" value="{{ $sales[0]->paymentMethod }}" name="paymentMethod" class="form-control form-control-sm">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-6 col-form-label col-form-label-sm text-right">Balance Due:</label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="balance" name="balance" class="form-control form-control-sm" readonly>
+                                        <input type="text" value="{{ $sales[0]->balanceDue }}" id="balance" name="balance" class="form-control form-control-sm text-right" readonly>
+                                        <input type="hidden" value="{{ $sales[0]->id }}" name="salesId">
                                     </div>
                                 </div>
                             </div>
@@ -267,88 +290,12 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <center>
-                                    <a href="" class="btn btn-xs btn-primary">Print</a>
-                                    <a href="" class="btn btn-xs btn-primary">Reimburse</a>
-                                    <a href="{{ url('/receive-payments') }}" class="btn btn-xs btn-primary">Receive Payment</a>
-                                    <button type="submit" class="btn btn-primary">Record</button>
-                                    <button type="reset" class="btn btn-danger">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Sales Edit</button>
                                 </center>
                             </div>
                         </div>
                     </div>
                 </form>
-
-
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="card mb-4">
-
-                <div class="card-header py-2">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Todays Sales Entry</h6>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <table class="table table-sm table-bordered" id="">
-                                <thead class="bg-info text-white">
-                                    <tr>
-                                        <th style="text-align: center; width: 10%;">Date</th>
-                                        <th style="text-align: center; width: 10%;">Invoice</th>
-                                        <th style="text-align: center; width: 10%;">Customer PO</th>
-                                        <th style="text-align: center; width: 25%;">Customer</th>
-                                        <th style="text-align: center; width: 15%;">Amount</th>
-                                        <th style="text-align: center; width: 15%;">Amount Due</th>
-                                        <th style="text-align: center; width: 10%;">Status</th>
-                                        <th style="text-align: center; width: 5%;">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody class="sales_sm_field">
-                                    @php $totalSalesAmount = null; $totalBalanceDue = null; @endphp
-                                    @foreach($sales as $sale)
-                                        @php
-                                            $totalSalesAmount = $totalSalesAmount + $sale->totalAmount;
-                                            $totalBalanceDue = $totalBalanceDue + $sale->balanceDue;
-                                        @endphp
-                                        <tr>
-                                            <td class="text-center">{{ date('d-m-Y', strtotime($sale->invoiceDate)) }}</td>
-                                            <td class="text-left"><span>{{ $sale->invoice }}</span></td>
-                                            <td class="text-left"><span>{{ $sale->customerPo }}</span></td>
-                                            <td class="text-left"><span>{{ $sale->customerName }}</span></td>
-                                            <td class="text-right"><span>{{ $sale->totalAmount }}</span></td>
-                                            <td class="text-right"><span>{{ $sale->balanceDue }}</span></td>
-                                            <td class="text-center"><span>Order</span></td>
-                                            <td class="text-center">
-                                                @if($sale->paymentStatus==0)
-                                                    <a href="{{ url('/sales-edit/'.$sale->id) }}" target="_blank" class="btn btn-primary btn-sm">Edit</a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="bg-info"></td>
-                                        <td class="bg-info"></td>
-                                        <td class="bg-info"></td>
-                                        <td class="bg-info"></td>
-                                        <td class="bg-info text-white text-right"><span>{{ $totalSalesAmount }}</span></td>
-                                        <td class="bg-info text-white text-right"><span>{{ $totalBalanceDue }}</span></td>
-                                        <td class="bg-info"></td>
-                                        <td class="bg-info"></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -967,7 +914,6 @@
                 })
             })
 
-
             $('#qty1').change(function () {
                 var qty=$(this).val();
                 var price=$('#unitPrice1').val();
@@ -1332,3 +1278,4 @@
         });
     </script>
 @endsection
+

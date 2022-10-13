@@ -29,20 +29,20 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-{{--    <li class="nav-item">--}}
-{{--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"--}}
-{{--           aria-expanded="true" aria-controls="collapseTwo">--}}
-{{--            <i class="fas fa-fw fa-cog"></i>--}}
-{{--            <span>Components</span>--}}
-{{--        </a>--}}
-{{--        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">--}}
-{{--            <div class="bg-white py-2 collapse-inner rounded">--}}
-{{--                <h6 class="collapse-header">Custom Components:</h6>--}}
-{{--                <a class="collapse-item" href="buttons.html">Buttons</a>--}}
-{{--                <a class="collapse-item" href="cards.html">Cards</a>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </li>--}}
+    {{--    <li class="nav-item">--}}
+    {{--        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"--}}
+    {{--           aria-expanded="true" aria-controls="collapseTwo">--}}
+    {{--            <i class="fas fa-fw fa-cog"></i>--}}
+    {{--            <span>Components</span>--}}
+    {{--        </a>--}}
+    {{--        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">--}}
+    {{--            <div class="bg-white py-2 collapse-inner rounded">--}}
+    {{--                <h6 class="collapse-header">Custom Components:</h6>--}}
+    {{--                <a class="collapse-item" href="buttons.html">Buttons</a>--}}
+    {{--                <a class="collapse-item" href="cards.html">Cards</a>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </li>--}}
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/customerInfo/0') }}">
@@ -51,12 +51,12 @@
         </a>
     </li>
 
-{{--    <li class="nav-item">--}}
-{{--        <a class="nav-link" href="{{ url('/supplierInfo') }}">--}}
-{{--            <i class="fas fa-fw fa-user"></i>--}}
-{{--            <span>Supplier Info</span>--}}
-{{--        </a>--}}
-{{--    </li>--}}
+    {{--    <li class="nav-item">--}}
+    {{--        <a class="nav-link" href="{{ url('/supplierInfo') }}">--}}
+    {{--            <i class="fas fa-fw fa-user"></i>--}}
+    {{--            <span>Supplier Info</span>--}}
+    {{--        </a>--}}
+    {{--    </li>--}}
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/product/0') }}">
@@ -81,18 +81,18 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ url('/sales') }}">Enter Sales</a>
-                <a class="collapse-item" href="#">Sales Register</a>
+                <a class="collapse-item" href="{{ url('/sales-register') }}">Sales Register</a>
                 <a class="collapse-item" href="{{ url('/receive-payments') }}">Receive Payment</a>
             </div>
         </div>
     </li>
 
-{{--    <li class="nav-item">--}}
-{{--        <a class="nav-link" href="{{ url('/receive-payments') }}">--}}
-{{--            <i class="fab fa-fw fa-product-hunt"></i>--}}
-{{--            <span>Receive Payment</span>--}}
-{{--        </a>--}}
-{{--    </li>--}}
+    {{--    <li class="nav-item">--}}
+    {{--        <a class="nav-link" href="{{ url('/receive-payments') }}">--}}
+    {{--            <i class="fab fa-fw fa-product-hunt"></i>--}}
+    {{--            <span>Receive Payment</span>--}}
+    {{--        </a>--}}
+    {{--    </li>--}}
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/purchases') }}">
