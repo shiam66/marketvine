@@ -19,14 +19,13 @@ class ReportController extends Controller
             ->orderBy('paymentDate')
             ->get();
 
-        $maxDate = DB::select("SELECT MAX(paymentDate) AS maxDate FROM payments WHERE customerId='$id'");
-        $minDate = DB::select("SELECT MIN(paymentDate) AS minDate FROM payments WHERE customerId='$id'");
+        $maxDate = DB::select("SELECT MAX(paymentDate) AS maxDate, MIN(paymentDate) AS minDate FROM payments WHERE customerId='$id'");
 
         return view('frontEnd.reports.paymentHistory', [
             'customers' => $customers,
             'customerById' => $customerById,
             'payments' => $payments,
-            'fromDate' => $minDate[0]->minDate,
+            'fromDate' => $maxDate[0]->minDate,
             'toDate' => $maxDate[0]->maxDate
         ]);
     }
@@ -63,10 +62,10 @@ class ReportController extends Controller
         $salesAnalysis[] = 0;
         $paymentAnalysis[] = 0;
         for ($month = 1; $month <= 12; $month++) {
-            $salesAnalysis[] = DB::table('sales_details')
+            $salesAnalysis[] = DB::table('sales')
                 ->whereYear('invoiceDate', '=', $yearId)
                 ->whereMonth('invoiceDate', '=', $month)
-                ->select(DB::raw('sum(amount) as sumAmount'))
+                ->select(DB::raw('sum(totalAmount) as sumAmount'))
                 ->get();
 
             $paymentAnalysis[] = DB::table('payments')
@@ -78,10 +77,10 @@ class ReportController extends Controller
 
         $lastSalesAnalysis[] = 0;
         for ($month = 1; $month <= 12; $month++) {
-            $lastSalesAnalysis[] = DB::table('sales_details')
+            $lastSalesAnalysis[] = DB::table('sales')
                 ->whereYear('invoiceDate', '=', $lastYearId)
                 ->whereMonth('invoiceDate', '=', $month)
-                ->select(DB::raw('sum(amount) as sumAmount'))
+                ->select(DB::raw('sum(totalAmount) as sumAmount'))
                 ->get();
         }
 
@@ -105,10 +104,10 @@ class ReportController extends Controller
         $salesAnalysis[] = 0;
         $paymentAnalysis[] = 0;
         for ($month = 1; $month <= 12; $month++) {
-            $salesAnalysis[] = DB::table('sales_details')
+            $salesAnalysis[] = DB::table('sales')
                 ->whereYear('invoiceDate', '=', $yearId)
                 ->whereMonth('invoiceDate', '=', $month)
-                ->select(DB::raw('sum(amount) as sumAmount'))
+                ->select(DB::raw('sum(totalAmount) as sumAmount'))
                 ->get();
 
             $paymentAnalysis[] = DB::table('payments')
@@ -120,10 +119,10 @@ class ReportController extends Controller
 
         $lastSalesAnalysis[] = 0;
         for ($month = 1; $month <= 12; $month++) {
-            $lastSalesAnalysis[] = DB::table('sales_details')
+            $lastSalesAnalysis[] = DB::table('sales')
                 ->whereYear('invoiceDate', '=', $lastYearId)
                 ->whereMonth('invoiceDate', '=', $month)
-                ->select(DB::raw('sum(amount) as sumAmount'))
+                ->select(DB::raw('sum(totalAmount) as sumAmount'))
                 ->get();
         }
 

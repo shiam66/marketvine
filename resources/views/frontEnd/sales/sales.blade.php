@@ -301,7 +301,7 @@
                                     <tr>
                                         <th style="text-align: center; width: 10%;">Date</th>
                                         <th style="text-align: center; width: 10%;">Invoice</th>
-                                        <th style="text-align: center; width: 10%;">Customer PO</th>
+                                        <th style="text-align: center; width: 10%;">Cus PO</th>
                                         <th style="text-align: center; width: 25%;">Customer</th>
                                         <th style="text-align: center; width: 15%;">Amount</th>
                                         <th style="text-align: center; width: 15%;">Amount Due</th>

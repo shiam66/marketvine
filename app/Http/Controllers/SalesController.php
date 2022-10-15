@@ -36,7 +36,6 @@ class SalesController extends Controller
         $invoiceDate=$sales[0]->invoiceDate;
         $salesDetails=DB::select("SELECT p.id, p.productNumber, p.productName, s.qty, s.unit, s.unitPrice, s.discountPer, s.amount FROM sales_details s LEFT JOIN products p ON p.id=s.itemId WHERE s.invoice='$invoice' AND s.invoiceDate='$invoiceDate'");
 
-//        return dd($salesDetails);
         return view('frontEnd.sales.salesEdit', [
             'customers' => $customers,
             'product' => $product,
@@ -171,7 +170,10 @@ class SalesController extends Controller
             $sales->paymentStatus = $paymentStatus;
             $sales->save();
 
-            DB::table('sales_details')->where('invoice', $sInvoice)->where('invoiceDate', $sInvoiceDate)->delete();
+            DB::table('sales_details')
+                ->where('invoice', $sInvoice)
+                ->where('invoiceDate', $sInvoiceDate)
+                ->delete();
 
             for ($i = 1; $i < 11; $i++) {
                 $itemCode = "itemCode" . $i;
@@ -196,7 +198,12 @@ class SalesController extends Controller
                 }
             }
 
-            $salesDetails = DB::table('sales_details')->groupBy('invoice')->select('invoice')->where('invoice', '=', $request->invoice)->first();
+            $salesDetails = DB::table('sales_details')
+                ->groupBy('invoice')
+                ->select('invoice')
+                ->where('invoice', '=', $request->invoice)
+                ->first();
+
             if ($salesDetails) {
                 if ($request->advance > 0) {
                     DB::table('payments')->where('salesId', $request->salesId)->delete();
@@ -346,7 +353,11 @@ class SalesController extends Controller
         $footer = "";
         $totalSalesAmount = null;
         $totalBalanceDue = null;
-        $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.customerId='$request->customerId' AND s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate'");
+        if ($request->customerId!=""){
+            $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.customerId='$request->customerId' AND s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate'");
+        }else{
+            $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate'");
+        }
         foreach ($sales as $sale) {
             $totalSalesAmount = $totalSalesAmount + $sale->totalAmount;
             $totalBalanceDue = $totalBalanceDue + $sale->balanceDue;

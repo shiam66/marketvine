@@ -115,14 +115,15 @@
                                 <table class="table table-sm table-bordered" id="dataTable">
                                     <thead class="bg-info text-white">
                                     <tr>
-                                        <th style="text-align: center; width: 9%;">SL</th>
-                                        <th style="text-align: center; width: 13%;">Pay. Date</th>
-                                        <th style="text-align: center; width: 13%;">Invoice</th>
-                                        <th style="text-align: center; width: 13%;">Inv. Date</th>
-                                        <th style="text-align: center; width: 13%;">Due Amount</th>
-                                        <th style="text-align: center; width: 13%;">Disc. Amount</th>
-                                        <th style="text-align: center; width: 13%;">Pay. Amount</th>
-                                        <th style="text-align: center; width: 13%;">Balance</th>
+                                        <th style="text-align: center; width: 8%;">Pay. ID</th>
+                                        <th style="text-align: center; width: 12%;">Pay. Date</th>
+                                        <th style="text-align: center; width: 12%;">Invoice</th>
+                                        <th style="text-align: center; width: 12%;">Inv. Date</th>
+                                        <th style="text-align: center; width: 12%;">Due Amount</th>
+                                        <th style="text-align: center; width: 12%;">Disc. Amount</th>
+                                        <th style="text-align: center; width: 12%;">Pay. Amount</th>
+                                        <th style="text-align: center; width: 12%;">Balance</th>
+                                        <th style="text-align: center; width: 8%;">Action</th>
                                     </tr>
                                     </thead>
 
@@ -132,7 +133,7 @@
                                         @foreach($payments as $payment)
                                             @php $totalPay = $totalPay + $payment->receivedAmount; @endphp
                                             <tr>
-                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td class="text-center">{{ $payment->id }}</td>
                                                 <td class="text-left"><span>{{ date('d-m-Y', strtotime($payment->paymentDate)) }}</span></td>
                                                 <td class="text-left"><span>{{ $payment->invoice }}</span></td>
                                                 <td class="text-left"><span>{{ date('d-m-Y', strtotime($payment->invoiceDate)) }}</span></td>
@@ -140,6 +141,10 @@
                                                 <td class="text-right"><span>{{ $payment->discountAmount }}</span></td>
                                                 <td class="text-right"><span>{{ $payment->receivedAmount }}</span></td>
                                                 <td class="text-right"><span>{{ $payment->dueAmount - $payment->discountAmount - $payment->receivedAmount }}</span></td>
+                                                <td class="text-center">
+                                                        <a href="{{ url('/payment-delete/'.$payment->id) }}" class="btn btn-danger btn-sm">Delete</a>
+                                                </td>
+
                                             </tr>
                                         @endforeach
                                     @endif
@@ -153,6 +158,7 @@
                                         <td class="bg-info"></td>
                                         <td class="bg-info"></td>
                                         <td class="bg-info text-white text-right"><span>{{ $totalPay }}</span></td>
+                                        <td class="bg-info"></td>
                                         <td class="bg-info"></td>
                                     </tr>
                                     </tfoot>

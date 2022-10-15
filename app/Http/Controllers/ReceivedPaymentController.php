@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -109,4 +108,32 @@ class ReceivedPaymentController extends Controller
         echo $output;
     }
 
+    public function paymentDelete($id)
+    {
+        $payment = Payment::find($id);
+        $sales = Sales::find($payment->salesId);
+        $sales->balanceDue = $sales->balanceDue + $payment->receivedAmount;
+        $sales->paymentStatus = 0;
+        $sales->save();
+
+        DB::table('payments')
+            ->where('id', $id)
+            ->delete();
+
+        $customerById = Customer::find($sales->customerId);
+        $customers = Customer::where('status', 1)->get();
+        $payments = Payment::where('customerId', $sales->customerId)
+            ->orderBy('paymentDate')
+            ->get();
+
+        $maxDate = DB::select("SELECT MAX(paymentDate) AS maxDate, MIN(paymentDate) AS minDate FROM payments WHERE customerId='$sales->customerId'");
+
+        return view('frontEnd.reports.paymentHistory', [
+            'customers' => $customers,
+            'customerById' => $customerById,
+            'payments' => $payments,
+            'fromDate' => $maxDate[0]->minDate,
+            'toDate' => $maxDate[0]->maxDate
+        ]);
+    }
 }
