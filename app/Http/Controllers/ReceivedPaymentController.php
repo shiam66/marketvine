@@ -112,7 +112,7 @@ class ReceivedPaymentController extends Controller
     {
         $payment = Payment::find($id);
         $sales = Sales::find($payment->salesId);
-        $sales->balanceDue = $sales->balanceDue + $payment->receivedAmount;
+        $sales->balanceDue = $sales->balanceDue + $payment->discountAmount + $payment->receivedAmount;
         $sales->paymentStatus = 0;
         $sales->save();
 
