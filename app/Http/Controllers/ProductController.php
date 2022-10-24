@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -18,7 +19,6 @@ class ProductController extends Controller
     }
 
     public function createProduct(Request $request){
-//        return dd($request);
         if ($request->productId==0) {
             $product = new Product();
             $product->productNumber = $request->productNumber;
@@ -27,6 +27,7 @@ class ProductController extends Controller
             $product->sellingUnit = $request->sellingUnit;
             $product->status = $request->status;
             $product->save();
+//            DB::select('call insertProduct(?,?,?,?)', [$request->productNumber,$request->productName,$request->sellingPrice,$request->sellingUnit]);
             return redirect('product/0')->with('message', 'Customer has been created successfully.');
         }else{
             $product = Product::find($request->productId);

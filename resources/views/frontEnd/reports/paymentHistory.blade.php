@@ -142,7 +142,7 @@
                                                 <td class="text-right"><span>{{ $payment->receivedAmount }}</span></td>
                                                 <td class="text-right"><span>{{ $payment->dueAmount - $payment->discountAmount - $payment->receivedAmount }}</span></td>
                                                 <td class="text-center">
-                                                        <a href="{{ url('/payment-delete/'.$payment->id) }}" class="btn btn-danger btn-sm">Delete</a>
+                                                        <a href="{{ url('/payment-delete/'.$payment->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this');">Delete</a>
                                                 </td>
 
                                             </tr>
