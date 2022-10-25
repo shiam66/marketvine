@@ -1,3 +1,14 @@
 .sidebar .nav-item .nav-link {
     padding: 8px 15px;
 }
+.nav-item .active{
+    font-weight: bold;
+}
+.nav-item .active span{
+    color: #fff;
+    font-size: 16px !important;
+}
+.nav-item .active i{
+    color: #fff !important;
+    font-size: 16px !important;
+}

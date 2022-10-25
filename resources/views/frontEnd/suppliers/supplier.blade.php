@@ -4,6 +4,11 @@
 
 @section('mainContent')
 
+    <?php
+        $active ='supplier';
+        $mainActive ='';
+    ?>
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h4 mb-0 text-gray-800">Supplier Info</h1>
@@ -35,16 +40,16 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Address 1</label>
+                                    <label class="col-sm-4 col-form-label">Address</label>
                                     <div class="col-sm-8">
                                         <textarea name="address" rows="2" class="form-control"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Address 2</label>
+                                    <label class="col-sm-4 col-form-label">Origin</label>
                                     <div class="col-sm-8">
-                                        <textarea name="address" rows="2" class="form-control"></textarea>
+                                        <input type="text" name="origin" class="form-control">
                                     </div>
                                 </div>
 
@@ -61,9 +66,9 @@
 
                             <div class="col-md-7">
                                 <div class="form-group form-row">
-                                    <label class="col-sm-2 col-form-label">Contact: 1</label>
+                                    <label class="col-sm-2 col-form-label">Contact Person: 1</label>
                                     <div class="col-sm-4">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Name">
+                                        <input type="text" name="customerName" class="form-control" placeholder="Contact Person">
                                     </div>
                                     <div class="col-sm-3">
                                         <input type="text" name="customerName" class="form-control" placeholder="Designation">
@@ -74,48 +79,9 @@
                                 </div>
 
                                 <div class="form-group form-row">
-                                    <label class="col-sm-2 col-form-label">Contact: 2</label>
+                                    <label class="col-sm-2 col-form-label">Contact Person: 2</label>
                                     <div class="col-sm-4">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Name">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Designation">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Mobile">
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-row">
-                                    <label class="col-sm-2 col-form-label">Contact: 3</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Name">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Designation">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Mobile">
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-row">
-                                    <label class="col-sm-2 col-form-label">Contact: 4</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Name">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Designation">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Mobile">
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-row">
-                                    <label class="col-sm-2 col-form-label">Contact: 5</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" name="customerName" class="form-control" placeholder="Name">
+                                        <input type="text" name="customerName" class="form-control" placeholder="Contact Person">
                                     </div>
                                     <div class="col-sm-3">
                                         <input type="text" name="customerName" class="form-control" placeholder="Designation">
@@ -138,7 +104,7 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Manage Customer</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Manage Supplier</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

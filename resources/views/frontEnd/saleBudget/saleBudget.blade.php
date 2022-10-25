@@ -30,6 +30,11 @@
 
 @section('mainContent')
 
+    <?php
+        $active ='sale_budget';
+        $mainActive ='';
+    ?>
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h4 mb-0 text-gray-800">Sale Budget</h1>

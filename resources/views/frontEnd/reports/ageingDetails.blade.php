@@ -47,6 +47,10 @@
 @endsection
 
 @section('mainContent')
+    <?php
+        $active ='ageing_details';
+        $mainActive ='reports';
+    ?>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">

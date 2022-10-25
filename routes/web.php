@@ -64,3 +64,7 @@ Route::get('/payment-report/{id}/{fDate}/{tDate}', 'PdfController@paymentReport'
 Auth::routes();
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+
+
+
+Route::get('/sample-submission', 'SampleSubmissionController@sampleSubmission')->middleware('auth');
