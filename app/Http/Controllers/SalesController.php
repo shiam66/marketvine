@@ -339,7 +339,7 @@ class SalesController extends Controller
     {
         $date= date('Y-m-d', strtotime(now()));
         $customers = Customer::where('status', 1)->get();
-        $sales= DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.invoiceDate BETWEEN '$date' AND '$date'");
+        $sales= DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.invoiceDate BETWEEN '$date' AND '$date' ORDER BY s.invoiceDate, s.invoice");
 
         return view('frontEnd.sales.salesRegister', [
             'customers'=>$customers,
@@ -354,9 +354,9 @@ class SalesController extends Controller
         $totalSalesAmount = null;
         $totalBalanceDue = null;
         if ($request->customerId!=""){
-            $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.customerId='$request->customerId' AND s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate'");
+            $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.customerId='$request->customerId' AND s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate' ORDER BY s.invoiceDate, s.invoice");
         }else{
-            $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate'");
+            $sales = DB::select("SELECT s.id, s.invoice, s.invoiceDate, s.customerId, c.customerName, s.customerPo, s.totalAmount, s.balanceDue, s.paymentStatus FROM sales s LEFT JOIN customers c ON c.id=s.customerId WHERE s.invoiceDate BETWEEN '$request->fDate' AND '$request->tDate' ORDER BY s.invoiceDate, s.invoice");
         }
         foreach ($sales as $sale) {
             $totalSalesAmount = $totalSalesAmount + $sale->totalAmount;
