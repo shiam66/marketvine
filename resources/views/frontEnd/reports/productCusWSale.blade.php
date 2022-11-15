@@ -46,6 +46,11 @@
 
 @section('mainContent')
 
+    <?php
+    $active ='sales_prd';
+    $mainActive ='reports';
+    ?>
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h4 mb-0 text-gray-800">Product Customer Wise Sale Volume</h1>

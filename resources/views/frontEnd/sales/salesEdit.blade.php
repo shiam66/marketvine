@@ -38,11 +38,14 @@
         }
     </style>
 
-
-
 @endsection
 
 @section('mainContent')
+
+    <?php
+        $active ='enter_sales';
+        $mainActive ='sales';
+    ?>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">

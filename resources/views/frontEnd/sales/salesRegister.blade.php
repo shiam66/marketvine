@@ -41,6 +41,10 @@
 @endsection
 
 @section('mainContent')
+    <?php
+        $active ='sales_register';
+        $mainActive ='sales';
+    ?>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
