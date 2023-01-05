@@ -279,34 +279,34 @@
                                     <tbody id="tableData">
                                     <tr>
                                         <td><b>This month sales Tar</b></td>
-                                        <td><span class="sw_text">{{ $salesTarJan }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarMar }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarApr }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarMay }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarJun }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarJul }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarAug }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarSep }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarOct }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarNov }}</span></td>
-                                        <td><span class="sw_text">{{ $salesTarDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesTarDec) }}</span></td>
                                     </tr>
 
                                     <tr>
                                         <td><b>This month sales Achv</b></td>
-                                        <td><span class="sw_text">{{ $salesAchvJan }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvMar }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvApr }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvMay }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvJun }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvJul }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvAug }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvSep }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvOct }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvNov }}</span></td>
-                                        <td><span class="sw_text">{{ $salesAchvDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($salesAchvDec) }}</span></td>
                                     </tr>
 
                                     <tr>
@@ -327,34 +327,34 @@
 
                                     <tr>
                                         <td><b>Cum. Sales target</b></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarJan }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarMar }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarApr }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarMay }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarJun }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarJul }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarAug }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarSep }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarOct }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarNov }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesTarDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesTarDec) }}</span></td>
                                     </tr>
 
                                     <tr>
                                         <td><b>Cum. Sales achv</b></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvJan }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvMar }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvApr }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvMay }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvJun }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvJul }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvAug }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvSep }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvOct }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvNov }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesAchvDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesAchvDec) }}</span></td>
                                     </tr>
 
                                     <tr>
@@ -375,18 +375,18 @@
 
                                     <tr>
                                         <td><b>Sales SPLY</b></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvJan }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvMar }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvApr }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvMay }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvJun }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvJul }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvAug }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvSep }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvOct }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvNov }}</span></td>
-                                        <td><span class="sw_text">{{ $lastSalesAchvDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($lastSalesAchvDec) }}</span></td>
                                     </tr>
 
                                     <tr>
@@ -407,18 +407,18 @@
 
                                     <tr>
                                         <td><b>Cum. Sales SPLY</b></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyJan }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyMar }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyApr }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyMay }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyJun }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyJul }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyAug }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplySep }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyOct }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyNov }}</span></td>
-                                        <td><span class="sw_text">{{ $cumSalesSplyDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplySep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($cumSalesSplyDec) }}</span></td>
                                     </tr>
 
                                     <tr>
@@ -439,34 +439,34 @@
 
                                     <tr>
                                         <td><b>Recov Target</b></td>
-                                        <td><span class="sw_text">{{ $recTarJan }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarMar }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarApr }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarMay }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarJun }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarJul }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarAug }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarSep }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarOct }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarNov }}</span></td>
-                                        <td><span class="sw_text">{{ $recTarDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($recTarDec) }}</span></td>
                                     </tr>
 
                                     <tr>
                                         <td><b>Recov This Month</b></td>
-                                        <td><span class="sw_text">{{ $paymentJan }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentFeb }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentMar }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentApr }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentMay }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentJun }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentJul }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentAug }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentSep }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentOct }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentNov }}</span></td>
-                                        <td><span class="sw_text">{{ $paymentDec }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentJan) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentFeb) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentMar) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentApr) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentMay) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentJun) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentJul) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentAug) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentSep) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentOct) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentNov) }}</span></td>
+                                        <td><span class="sw_text">{{ number_format($paymentDec) }}</span></td>
                                     </tr>
 
                                     <tr>
