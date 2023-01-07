@@ -302,6 +302,7 @@
                     method: "POST",
                     data: {yearId: yearId, _token: _token},
                     success: function (result) {
+                        console.log(result);
                         $('#tableData').html(result)
                     }
                 })
