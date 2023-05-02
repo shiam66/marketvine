@@ -31,34 +31,35 @@ class SalesBudgetController extends Controller
         $output = "";
         $budget = SalesBudget::where('budgetYear', '=', $yearId)->first();
 
-        $gpJan = $budget->salesJan - $budget->cogsJan;
-        $gpFeb = $budget->salesFeb - $budget->cogsFeb;
-        $gpMar = $budget->salesMar - $budget->cogsMar;
-        $gpApr = $budget->salesApr - $budget->cogsApr;
-        $gpMay = $budget->salesMay - $budget->cogsMay;
-        $gpJun = $budget->salesJun - $budget->cogsJun;
-        $gpJul = $budget->salesJul - $budget->cogsJul;
-        $gpAug = $budget->salesAug - $budget->cogsAug;
-        $gpSep = $budget->salesSep - $budget->cogsSep;
-        $gpOct = $budget->salesOct - $budget->cogsOct;
-        $gpNov = $budget->salesNov - $budget->cogsNov;
-        $gpDec = $budget->salesDec - $budget->cogsDec;
+        if($budget!=null) {
+            $gpJan = $budget->salesJan - $budget->cogsJan;
+            $gpFeb = $budget->salesFeb - $budget->cogsFeb;
+            $gpMar = $budget->salesMar - $budget->cogsMar;
+            $gpApr = $budget->salesApr - $budget->cogsApr;
+            $gpMay = $budget->salesMay - $budget->cogsMay;
+            $gpJun = $budget->salesJun - $budget->cogsJun;
+            $gpJul = $budget->salesJul - $budget->cogsJul;
+            $gpAug = $budget->salesAug - $budget->cogsAug;
+            $gpSep = $budget->salesSep - $budget->cogsSep;
+            $gpOct = $budget->salesOct - $budget->cogsOct;
+            $gpNov = $budget->salesNov - $budget->cogsNov;
+            $gpDec = $budget->salesDec - $budget->cogsDec;
 
-        $opJan = $gpJan - $budget->oeJan;
-        $opFeb = $gpFeb - $budget->oeFeb;
-        $opMar = $gpMar - $budget->oeMar;
-        $opApr = $gpApr - $budget->oeApr;
-        $opMay = $gpMay - $budget->oeMay;
-        $opJun = $gpJun - $budget->oeJun;
-        $opJul = $gpJul - $budget->oeJul;
-        $opAug = $gpAug - $budget->oeAug;
-        $opSep = $gpSep - $budget->oeSep;
-        $opOct = $gpOct - $budget->oeOct;
-        $opNov = $gpNov - $budget->oeNov;
-        $opDec = $gpDec - $budget->oeDec;
-        $opTotal=$opJan+$opFeb+$opMar+$opApr+$opMay+$opJun+$opJul+$opAug+$opSep+$opOct+$opNov+$opDec;
+            $opJan = $gpJan - $budget->oeJan;
+            $opFeb = $gpFeb - $budget->oeFeb;
+            $opMar = $gpMar - $budget->oeMar;
+            $opApr = $gpApr - $budget->oeApr;
+            $opMay = $gpMay - $budget->oeMay;
+            $opJun = $gpJun - $budget->oeJun;
+            $opJul = $gpJul - $budget->oeJul;
+            $opAug = $gpAug - $budget->oeAug;
+            $opSep = $gpSep - $budget->oeSep;
+            $opOct = $gpOct - $budget->oeOct;
+            $opNov = $gpNov - $budget->oeNov;
+            $opDec = $gpDec - $budget->oeDec;
+            $opTotal = $opJan + $opFeb + $opMar + $opApr + $opMay + $opJun + $opJul + $opAug + $opSep + $opOct + $opNov + $opDec;
 
-        $output .= '
+            $output .= '
             <tr>
                 <th>Sales</th>
                 <td><input type="text" value="' . $budget->salesJan . '" name="salesJan" class="form-control form-control-sm"></td>
@@ -196,7 +197,147 @@ class SalesBudgetController extends Controller
             </tr>
 
         ';
+        }
+        else{
+            $output .= '
+            <tr>
+                <th>Sales</th>
+                <td><input type="text" value="1" name="salesJan" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesFeb" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesMar" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesApr" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesMay" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesJun" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesJul" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesAug" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesSep" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesOct" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesNov" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="salesDec" class="form-control form-control-sm"></td>
+                <td class="text-right"></td>
+            </tr>
 
+            <tr>
+                <th>COGS</th>
+                <td><input type="text" value="1" name="cogsJan" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsFeb" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsMar" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsApr" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsMay" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsJun" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsJul" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsAug" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsSep" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsOct" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsNov" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="cogsDec" class="form-control form-control-sm"></td>
+                <td class="text-right"></td>
+            </tr>
+
+            <tr>
+                <th>GP</th>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td class="text-right"></td>
+            </tr>
+
+            <tr>
+                <th>GP %</th>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+                <td class="bg-warning text-white text-right">%</td>
+            </tr>
+
+            <tr>
+                <th>OE</th>
+                <td><input type="text" value="1" name="oeJan" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeFeb" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeMar" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeApr" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeMay" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeJun" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeJul" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeAug" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeSep" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeOct" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeNov" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="oeDec" class="form-control form-control-sm"></td>
+                <td class="text-right"></td>
+            </tr>
+
+            <tr>
+                <th>OP</th>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td><input type="text" value="1" name="saleBudget1" class="form-control form-control-sm" readonly></td>
+                <td class="text-right"></td>
+            </tr>
+
+            <tr>
+                <th>OP %</th>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+                <td class="bg-success text-white text-right">%</td>
+            </tr>
+
+            <tr>
+                <th>Recov Target</th>
+                <td><input type="text" value="1" name="recJan" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recFeb" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recMar" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recApr" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recMay" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recJun" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recJul" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recAug" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recSep" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recOct" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recNov" class="form-control form-control-sm"></td>
+                <td><input type="text" value="1" name="recDec" class="form-control form-control-sm"></td>
+                <td class="text-right"></td>
+            </tr>
+
+        ';
+        }
         echo $output;
     }
 

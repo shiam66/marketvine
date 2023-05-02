@@ -78,14 +78,14 @@ class ReceivedPaymentController extends Controller
                     <input type="text" name="salesAmount[]" class="form-control form-control-sm text-right" value="' . $item->totalAmount . '" readonly>
                 </td>
                 <td>
-                    <input type="number" name="discount[]" id="discount[' . $index . ']" data-index="' . $index . '" class="receive form-control form-control-sm text-right">
+                    <input type="number" step="0.01" name="discount[]" id="discount[' . $index . ']" data-index="' . $index . '" class="receive form-control form-control-sm text-right">
                 </td>
                 <td>
-                    <input type="number" name="dueAmount[]" id="dueAmount[' . $index . ']" data-index="' . $index . '" class="receive due form-control form-control-sm text-right" value="' . $item->balanceDue . '" readonly>
+                    <input type="number" step="0.01" name="dueAmount[]" id="dueAmount[' . $index . ']" data-index="' . $index . '" class="receive due form-control form-control-sm text-right" value="' . $item->balanceDue . '" readonly>
                     <input type="hidden" name="due[]" id="due[' . $index . ']" data-index="' . $index . '" class="receive form-control form-control-sm text-right" value="' . $item->balanceDue . '" readonly>
                 </td>
                 <td>
-                    <input type="number" name="appliedAmount[]" id="appliedAmount[' . $index . ']" data-index="' . $index . '" class="receive applied form-control form-control-sm text-right">
+                    <input type="number" step="0.01" name="appliedAmount[]" id="appliedAmount[' . $index . ']" data-index="' . $index . '" class="receive applied form-control form-control-sm text-right">
                 </td>
             </tr>
         ';
